@@ -13,7 +13,7 @@ exports.up = function(knex) {
             .string('email', 60)
             .unique();
       })
-      .createTable('user_recipes', user_recipes => {
+    .createTable('user_recipes', user_recipes => {
         user_recipes.increments();
 
         user_recipes
@@ -33,6 +33,26 @@ exports.up = function(knex) {
             .onUpdate('CASCADE');
         user_recipes
             .string('coarseness')
+    })
+    .createTable('seeded_recipes', seededed_recipes => {
+        seededed_recipes.increments();
+
+        seededed_recipes
+            .string('title', 60)
+            .notNullable();
+        seededed_recipes
+            .string('instructions')
+            .notNullable
+    })
+    .createTable('ingredients', ingredients => {
+        ingredients.increments();
+
+        ingredients
+            .string('title', 60)
+            .notNullable();
+        ingredients
+            .string('ingredient_description', 240)
+            .notNullable();
     })
 };
 
