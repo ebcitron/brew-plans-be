@@ -13,6 +13,7 @@ exports.up = function(knex) {
             .string('email', 60)
             .unique();
       })
+      
 };
 
 exports.down = function(knex) {

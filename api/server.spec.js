@@ -15,5 +15,21 @@ describe('the server', () => {
                     expect(res.status).toBe(200);
             })
         })
+
+        it('should return status of 200', () => {
+            return request(server)
+                .get('/allusers')
+                .then(res => {
+                    expect(res.status).toBe(200);
+            })
+        })
+
+        it('should return status of 200', () => {
+            return request(server)
+                .get('/users/1')
+                .then(res => {
+                    expect(res.status).toBe(200);
+            })
+        })
     })
 })
