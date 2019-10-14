@@ -5,6 +5,7 @@ require('dotenv').config()
 
 const usersRouter = require('../database/models_routers/users/usersRouter.js')
 const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
+const recipeRouter = require('../database/models_routers/user_recipes/user_recipes_router.js')
 
 const server = express();
 
@@ -14,6 +15,7 @@ server.use(cors());
 
 server.use('/users', usersRouter);
 server.use('/ingredients', ingredientsRouter)
+server.use('/recipes', recipeRouter)
 
 //test endpoints
 server.get('/', (req, res) => {
