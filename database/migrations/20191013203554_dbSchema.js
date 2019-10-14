@@ -42,7 +42,7 @@ exports.up = function(knex) {
             .notNullable();
         seededed_recipes
             .string('instructions')
-            .notNullable
+            .notNullable()
     })
     .createTable('ingredients', ingredients => {
         ingredients.increments();
