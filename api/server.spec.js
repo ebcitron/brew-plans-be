@@ -7,7 +7,7 @@ describe('the server', () => {
         it('should run the testing env', () => {
             expect(process.env.DB_ENV).toBe('testing');
         })
-
+        
         it('should return status of 200', () => {
             return request(server)
                 .get('/')
