@@ -3,9 +3,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config()
 
-// const Users = require('../users/usersModel.js');
-const usersRouter = require('../users/usersRouter.js')
-const ingredientsRouter = require('../ingredients/ingredientsRouter.js')
+const usersRouter = require('../database/models_routers/users/usersRouter.js')
+const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
 
 const server = express();
 
