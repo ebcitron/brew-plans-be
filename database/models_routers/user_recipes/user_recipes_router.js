@@ -34,7 +34,6 @@ router.post('/newrecipe', (req, res) => {
       .then(saved => {
         res.status(201).json({
           recipe: saved
-          // token
         });
       })
       .catch(error => {

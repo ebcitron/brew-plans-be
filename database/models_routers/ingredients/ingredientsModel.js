@@ -2,7 +2,9 @@ const db = require('../../dbConfig.js');
 
 module.exports = {
     findAllIngrdients,
-    findById
+    findById,
+    add,
+    removeIngredient
   };
   
   function findAllIngrdients() {
@@ -13,4 +15,17 @@ module.exports = {
     return db('ingredients')
       .where({ id })
       .first();
+}
+
+async function add(ingredient) {
+  const [id] = await db('ingredients').insert(ingredient);
+
+  return findById(id);
+}
+
+
+function removeIngredient(id) {
+  return db('ingredients')
+    .where({ id })
+    .del()
 }
