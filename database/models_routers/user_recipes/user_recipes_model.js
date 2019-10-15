@@ -4,7 +4,8 @@ module.exports = {
     findAllRecipes,
     findById,
     add,
-    removeRecipe
+    removeRecipe,
+    updateUserRecipe
   };
   
   function findAllRecipes() {
@@ -28,4 +29,12 @@ function removeRecipe(id) {
   return db('user_recipes')
     .where({ id })
     .del()
+}
+
+
+function updateUserRecipe(id, changes) {
+  return db('user_recipes').where({ id }).update(changes)
+  .then(count => {
+      return findById(id)
+  })
 }

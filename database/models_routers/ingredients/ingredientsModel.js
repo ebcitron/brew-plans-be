@@ -4,7 +4,8 @@ module.exports = {
     findAllIngrdients,
     findById,
     add,
-    removeIngredient
+    removeIngredient,
+    updateIngredient
   };
   
   function findAllIngrdients() {
@@ -28,4 +29,11 @@ function removeIngredient(id) {
   return db('ingredients')
     .where({ id })
     .del()
+}
+
+function updateIngredient(id, changes) {
+  return db('ingredients').where({ id }).update(changes)
+  .then(count => {
+      return findById(id)
+  })
 }

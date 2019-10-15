@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Ingredient = require('./ingredientsModel');
 
-router.get('/allIngredients', (req, res) => {
+router.get('/all', (req, res) => {
   Ingredient.findAllIngrdients()
       .then(ingredients => {
         res.json(ingredients);
@@ -57,6 +57,24 @@ router.get('/:id', (req, res) => {
     });
   });
 
+  router.put('/:id', (req, res) => {
+
+    const { id } = req.params;
+    const changes = req.body;
+  
+    Ingredient.updateIngredient(id, changes)
+      .then(ingredient => {
+        if (ingredient) {
+          res.json({ updated: ingredient });
+        } else {
+          res.status(404).json({ message: 'Could not find ingredient id' })
+        }
+      })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get ingredient' });
+    });
+  });
+  
 
 module.exports = router;
 
