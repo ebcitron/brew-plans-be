@@ -41,4 +41,21 @@ router.delete('/:id', (req, res) => {
     });
   });
 
+  router.post('/register', (req, res) => {
+
+    let user = req.body;
+
+    Users.add(user)
+      .then(saved => {
+        res.status(201).json({
+          user: saved
+          // token
+        });
+      })
+      .catch(error => {
+        res.status(500).json(error);
+      });
+  });
+  
+
 module.exports = router;
