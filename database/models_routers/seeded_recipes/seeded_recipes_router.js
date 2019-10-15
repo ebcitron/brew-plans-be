@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const Recipes = require('./user_recipes_model');
+const seededRecipes = require('./seeded_recipes_model');
 
-router.get('/alluserRecipes', (req, res) => {
-  Recipes.findAllRecipes()
+router.get('/allseeded', (req, res) => {
+  seededRecipes.findAllSeededRecipes()
       .then(recipes => {
         res.json(recipes);
       })
@@ -12,7 +12,7 @@ router.get('/alluserRecipes', (req, res) => {
   
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    Recipes.findById(id)
+    seededRecipes.findById(id)
     .then(recipe => {
       if (recipe) {
         res.json(recipe);
@@ -21,16 +21,15 @@ router.get('/:id', (req, res) => {
       }
     })
     .catch(err => {
-      res.status(500).json({ message: 'Failed to get recpie' });
+      res.status(500).json({ message: 'Failed to get recipe' });
     });
   });
 
-
-router.post('/newrecipe', (req, res) => {
+  router.post('/newseededrecipe', (req, res) => {
 
     let recipe = req.body;
 
-    Recipes.add(recipe)
+    seededRecipes.add(recipe)
       .then(saved => {
         res.status(201).json({
           recipe: saved
@@ -45,18 +44,19 @@ router.post('/newrecipe', (req, res) => {
   router.delete('/:id', (req, res) => {
     const { id }  = req.params; 
   
-    Recipes.removeRecipe(id)
+    seededRecipes.removeSeededRecipe(id)
     .then(deleted => {
       if (deleted) {
         res.json({ removed: deleted });
       } else {
-        res.status(404).json({ message: 'Could not find recipe with given id' });
+        res.status(404).json({ message: 'Could not find ingredient with given id' });
       }
     })
     .catch(err => {
-      res.status(500).json({ message: 'Failed to delete recipe' });
+      res.status(500).json({ message: 'Failed to delete ingredient' });
     });
   });
 
 
 module.exports = router;
+
