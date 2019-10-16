@@ -16,10 +16,10 @@ module.exports = {
     client: 'postgresql',
     connection: process.env.DATABASE_URL, 
     sees:{
-      directory: __dirname + './database/seeds'
+      directory: __dirname + '/database/seeds'
     },
     migrations: {
-      directory: __dirname + './database/migrations'
+      directory: __dirname + '/database/migrations'
     }
   }
 
