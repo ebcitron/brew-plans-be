@@ -11,16 +11,13 @@ module.exports = {
     },
     seeds: { directory: './database/seeds' },
   },
-
   production: {
     client: 'postgresql',
     connection: process.env.DATABASE_URL, 
-    seeds:{
-      directory: __dirname + '/database/seeds'
-    },
     migrations: {
-      directory: __dirname + '/database/migrations'
-    }
+      directory: './database/migrations',
+      tableName: 'dbmigrations',
+    },
+    seeds: { directory: './database/seeds' },
   }
-
 };
