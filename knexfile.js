@@ -2,14 +2,15 @@
 
 module.exports = {
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     useNullAsDefault: true,
     connection: { filename: './database/data.db3' },
     migrations: {
-      directory: './database/migrations',
-      tableName: 'dbmigrations',
-    },
-    seeds: { directory: './database/seeds' },
+        directory: __dirname + '/database/migrations',
+      },
+    seeds: {
+        directory: __dirname + '/database/seeds',
+      },
   },
 
   production: {
