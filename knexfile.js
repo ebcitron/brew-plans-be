@@ -1,16 +1,16 @@
 // Update with your config settings.
 
 module.exports = {
+
   development: {
     client: 'pg',
     useNullAsDefault: true,
-    connection: { filename: './database/data.db3' },
+    connection: { filename: '/database/data.db3' },
     migrations: {
-        directory: __dirname + '/database/migrations',
-      },
-    seeds: {
-        directory: __dirname + '/database/seeds',
-      },
+      directory: '/database/migrations',
+      tableName: 'dbmigrations',
+    },
+    seeds: { directory: './database/seeds' },
   },
 
   production: {
