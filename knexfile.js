@@ -3,13 +3,13 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    useNullAsDefault: true,
+    connection: { filename: './database/data.db3' },
     migrations: {
-        directory: __dirname + '/database/migrations',
-      },
-    seeds: {
-        directory: __dirname + '/database/seeds',
-      },
+      directory: './database/migrations',
+      tableName: 'dbmigrations',
+    },
+    seeds: { directory: './database/seeds' },
   },
 
   production: {
