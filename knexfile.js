@@ -1,13 +1,13 @@
 // Update with your config settings.
 
 module.exports = {
-
+  
   development: {
-    client: 'pg',
+    client: 'sqlite3',
     useNullAsDefault: true,
-    connection: { filename: '/database/data.db3' },
+    connection: { filename: './database/data.db3' },
     migrations: {
-      directory: '/database/migrations',
+      directory: './database/migrations',
       tableName: 'dbmigrations',
     },
     seeds: { directory: './database/seeds' },
