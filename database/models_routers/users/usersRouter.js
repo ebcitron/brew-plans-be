@@ -5,6 +5,7 @@ router.get('/allusers', (req, res) => {
     Users.findAllUsers()
       .then(users => {
         res.json(users);
+        console.log(process.env.DB_ENV);
       })
       .catch(err => res.send(err));
   });
