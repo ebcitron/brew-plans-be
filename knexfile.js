@@ -1,6 +1,5 @@
 module.exports = {
-  // development
-  production: {
+  development: {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: { 
@@ -18,15 +17,15 @@ module.exports = {
     seeds: { directory: './database/seeds' },
   },
   
-  // production: {
-  //   client: 'pg',
-  //   connection: process.env.DATABASE_URL,
-  //   migrations: {
-  //       directory: __dirname + '/database/migrations',
-  //     },
+  production: {
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    migrations: {
+        directory: __dirname + '/database/migrations',
+      },
       
-  //   seeds: {
-  //       directory: __dirname + '/database/seeds',
-  //     },
-  // },
+    seeds: {
+        directory: __dirname + '/database/seeds',
+      },
+  },
 };

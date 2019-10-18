@@ -21,6 +21,7 @@ server.use('/seededrecipes', seededRecipeRouter)
 
 //test endpoints
 server.get('/', (req, res) => {
+    console.log(process.env.NODE_ENV);
     res.status(200).json({ api: 'up' });
 });
 
