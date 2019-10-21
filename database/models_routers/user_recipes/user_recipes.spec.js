@@ -16,11 +16,11 @@ describe('the server', () => {
             })
         })
 
-        it('should return status of 200', () => {
+        it('should return status of 404', () => {
             return request(server)
-                .get('/userrecipes/3')
+                .get('/userrecipes/999999999')
                 .then(res => {
-                    expect(res.status).toBe(200);
+                    expect(res.status).toBe(404);
             })
         })
 
