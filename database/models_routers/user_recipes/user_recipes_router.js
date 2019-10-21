@@ -76,4 +76,23 @@ router.post('/newrecipe', (req, res) => {
     });
   });
 
+
+  router.get('/user/:user_id', (req, res) => {
+    const { user_id } = req.params;
+  
+    Recipes.findPostsByUserId(user_id)
+    .then(recipe => {
+      if (recipe) {
+        res.json(recipe);
+      } else {
+        res.status(404).json({ message: 'Could not find recipes for given user' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get recipes' });
+    });
+  });
+
+
+
 module.exports = router;

@@ -2,17 +2,14 @@
 exports.up = function(knex) {
     return knex.schema.createTable('users', users => {
         users.increments();
-    
+             
         users
-            .string('username', 60)
+            .string('email', 60)
             .notNullable()
             .unique();
         users
             .string('password', 60)
             .notNullable();
-        users
-            .string('email', 60)
-            .unique();
       })
     .createTable('user_recipes', user_recipes => {
         user_recipes.increments();
@@ -20,6 +17,8 @@ exports.up = function(knex) {
         user_recipes
             .string('title', 255)
             .notNullable()
+        user_recipes   
+            .string('brew_type', 60)
         user_recipes
             .binary('public_private')
         user_recipes
@@ -34,6 +33,16 @@ exports.up = function(knex) {
             .onUpdate('CASCADE');
         user_recipes
             .string('coarseness')
+        // user_recipes
+        //     .integer('ingredients_id')
+        //     .unsigned()
+        //     // .notNullable()
+        //     .references('id')
+        //     .inTable('ingredients')
+        //     .onDelete('CASCADE')
+        //     .onUpdate('CASCADE');
+        user_recipes
+            .integer('ingredient_qty')
     })
     .createTable('seeded_recipes', seededed_recipes => {
         seededed_recipes.increments();
@@ -50,9 +59,6 @@ exports.up = function(knex) {
 
         ingredients
             .string('title', 60)
-            .notNullable();
-        ingredients
-            .string('ingredient_description', 240)
             .notNullable();
     })
 };

@@ -5,7 +5,8 @@ module.exports = {
     findById,
     add,
     removeRecipe,
-    updateUserRecipe
+    updateUserRecipe, 
+    findPostsByUserId
   };
   
   function findAllRecipes() {
@@ -38,3 +39,12 @@ function updateUserRecipe(id, changes) {
       return findById(id)
   })
 }
+
+function findPostsByUserId(user_id) {
+  return db('users as u')
+  .join('user_recipes as ur','ur.user_id', 'u.id')
+  .select('ur.id', 'ur.title', 'ur.brew_type', 'ur.public_private', 'ur.water_temp', 'ur.ingredient_qty')
+  .orderBy('ur.id')
+  .where({ user_id })
+}
+
