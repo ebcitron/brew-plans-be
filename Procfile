@@ -1,1 +1,1 @@
-web npm start
+web knex seed:run && npm start
