@@ -30,8 +30,10 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.2",
     "knex-cleaner": "^1.2.1",
+    "passport-google-oauth20": "^2.0.0",
     "pg": "^7.12.1",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.1.0",
+    "passport": "^0.4.0"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
