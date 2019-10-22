@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const Users = require('../database/dbConfig.js')
 require('dotenv').config()
 
 var passport = require('passport');
@@ -30,7 +31,7 @@ passport.serializeUser(function(user, done) {
 
 passport.use(new LocalStrategy(
     function(email, password, done) {
-      User.findOne({ email: email }, function (err, user) {
+      Users.findByUsername({ email: email }, function (err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
         if (!user.verifyPassword(password)) { return done(null, false); }
@@ -65,7 +66,7 @@ server.use(require('express-session')({ secret: 'secret', resave: false, saveUni
 // });
 
 server.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/users/allusers' }),
+  passport.authenticate('local', { failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/master');
   });
