@@ -57,15 +57,20 @@ server.use('/userrecipes', userRecipeRouter)
 server.use('/seededrecipes', seededRecipeRouter)
 
 //test endpoints
-server.get('/', (req, res) => {
+// server.get('/', (req, res) => {
+//     res.status(200).json({ api: 'up' });
+// });
+
+server.get('/', 
+passport.authenticate('local', { failureRedirect: '/login' }),
+    (req, res) => {
     res.status(200).json({ api: 'up' });
 });
 
 server.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', { failureRedirect: '/users/allusers' }),
   function(req, res) {
     res.redirect('/');
   });
-
 
 module.exports = server;
