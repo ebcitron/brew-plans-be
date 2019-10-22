@@ -5,7 +5,7 @@ module.exports = {
     findById,
     add,
     removeUser,
-    findByUsername
+    findByEmail
   };
   
   function findAllUsers() {
@@ -30,14 +30,21 @@ function add(user) {
       .del()
 }
 
-function findByUsername(username, cb) {
-  process.nextTick(function() {
-    for (var i = 0, len = records.length; i < len; i++) {
-      var record = records[i];
-      if (record.username === username) {
-        return cb(null, record);
-      }
-    }
-    return cb(null, null);
-  });
+    
+function findByEmail(id) {
+  return db('users')
+    .where({ email })
+    .first();
 }
+
+// function findByEmail(email, cb) {
+//   process.nextTick(function() {
+//     for (var i = 0, len = records.length; i < len; i++) {
+//       var record = records[i];
+//       if (record.email === email) {
+//         return cb(null, record);
+//       }
+//     }
+//     return cb(null, null);
+//   });
+// }
