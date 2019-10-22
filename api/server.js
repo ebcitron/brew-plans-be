@@ -3,9 +3,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config()
 
-// var passport = require('passport');
+var passport = require('passport');
 // var config = require('../oauth.js');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // passport.serializeUser(function(user, done) {
 //     done(null, user);
@@ -27,16 +28,16 @@ require('dotenv').config()
 //   }
 // ));
 
-// passport.use(new LocalStrategy(
-//     function(email, password, done) {
-//       User.findOne({ email: email }, function (err, user) {
-//         if (err) { return done(err); }
-//         if (!user) { return done(null, false); }
-//         if (!user.verifyPassword(password)) { return done(null, false); }
-//         return done(null, user);
-//       });
-//     }
-//   ));
+passport.use(new LocalStrategy(
+    function(email, password, done) {
+      User.findOne({ email: email }, function (err, user) {
+        if (err) { return done(err); }
+        if (!user) { return done(null, false); }
+        if (!user.verifyPassword(password)) { return done(null, false); }
+        return done(null, user);
+      });
+    }
+  ));
 
 const usersRouter = require('../database/models_routers/users/usersRouter.js')
 const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
@@ -59,6 +60,12 @@ server.use('/seededrecipes', seededRecipeRouter)
 server.get('/', (req, res) => {
     res.status(200).json({ api: 'up' });
 });
+
+server.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
 
 module.exports = server;
