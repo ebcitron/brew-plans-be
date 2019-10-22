@@ -8,13 +8,13 @@ var passport = require('passport');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 
-// passport.serializeUser(function(user, done) {
-//     done(null, user);
-//   });
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
 
-//   passport.deserializeUser(function(obj, done) {
-//     done(null, obj);
-//   });
+  passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+  });
 
 // passport.use(new GoogleStrategy({
 //     clientID: 449923889220-pa3veecaq72o4tiairfrputrj7f0dp2n.apps.googleusercontent.com,
@@ -56,21 +56,25 @@ server.use('/ingredients', ingredientsRouter)
 server.use('/userrecipes', userRecipeRouter)
 server.use('/seededrecipes', seededRecipeRouter)
 
+server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
+
+
 //test endpoints
 // server.get('/', (req, res) => {
 //     res.status(200).json({ api: 'up' });
 // });
 
-server.get('/', 
-passport.authenticate('local', { failureRedirect: '/login' }),
-    (req, res) => {
-    res.status(200).json({ api: 'up' });
-});
-
 server.post('/login', 
   passport.authenticate('local', { failureRedirect: '/users/allusers' }),
-  function(req, res) {
-    res.redirect('/');
+    function(req, res) {
+        res.redirect('/master');
   });
+
+  server.get('/master', 
+    require('connect-ensure-login').ensureLoggedIn(),
+        (req, res) => {
+            res.redirect('/users/allusers');
+            // res.status(200).json({ api: 'up' });
+});
 
 module.exports = server;
