@@ -1,12 +1,10 @@
 const router = require('express').Router();
 const Users = require('./usersModel.js');
-const authenticate = require('../../../auth.js');
+const authenticate = require('../../../api/server.js');
 
 
 
-router.get('/allusers',
-  passport.authenticate('google', {failureRedirect: '/login'}),
-    (req, res) => {
+router.get('/allusers',(req, res) => {
         Users.findAllUsers()
           .then(users => {
             res.json(users);
@@ -16,6 +14,18 @@ router.get('/allusers',
   });
 
   
+// router.get('/allusers',
+// passport.authenticate('google', {failureRedirect: '/login'}),
+//   (req, res) => {
+//       Users.findAllUsers()
+//         .then(users => {
+//           res.json(users);
+//           console.log(process.env.DB_ENV);
+//         })
+//         .catch(err => res.send(err));
+// });
+
+
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     Users.findById(id)
