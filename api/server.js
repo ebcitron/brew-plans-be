@@ -1,13 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const Users = require('../database/dbConfig.js')
+const UsersDB = require('../database/models_routers/users/usersModel.js');
 require('dotenv').config()
 
 var passport = require('passport');
 // var config = require('../oauth.js');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
+
+
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -31,7 +33,7 @@ passport.serializeUser(function(user, done) {
 
 passport.use(new LocalStrategy(
     function(email, password, done) {
-      Users.findByUsername({ email: email }, function (err, user) {
+        UsersDB.findByUsername({ email: email }, function (err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
         if (!user.verifyPassword(password)) { return done(null, false); }
@@ -47,23 +49,27 @@ const seededRecipeRouter = require('../database/models_routers/seeded_recipes/se
 
 const server = express();
 
+server.use(require('morgan')('combined'));
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
 server.use('/users', usersRouter);
-// server.use('/users', ensureAuthenticated, usersRouter);
+// server.use('/users', ensureLoggedIn, usersRouter);
 server.use('/ingredients', ingredientsRouter)
 server.use('/userrecipes', userRecipeRouter)
 server.use('/seededrecipes', seededRecipeRouter)
 
 server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
 
+server.use(passport.initialize());
+server.use(passport.session());
 
 //test endpoints
-// server.get('/', (req, res) => {
-//     res.status(200).json({ api: 'up' });
-// });
+
+server.get('/', (req, res) => {
+    res.status(200).json({ api: 'up' });
+});
 
 server.post('/login', 
   passport.authenticate('local', { failureRedirect: '/login' }),
