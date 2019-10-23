@@ -111,6 +111,13 @@ server.use(require('express-session')({ secret: 'secret', resave: false, saveUni
 server.use(passport.initialize());
 server.use(passport.session());
 
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+      return next();
+
+  res.sendStatus(401);
+}
+
 //test endpoints
 server.get('/', (req, res) => {
     res.status(200).json({ api: 'up' });
@@ -124,7 +131,7 @@ server.post('/login',
       });
 
 server.get('/master', 
-  require('connect-ensure-login').ensureLoggedIn(),
+    isLoggedIn, 
       (req, res) => {
           res.redirect('/users/allusers');
         });
