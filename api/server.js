@@ -101,10 +101,17 @@ server.use(express.json());
 server.use(cors());
 
 server.use('/users', usersRouter);
-// server.use('/users', ensureLoggedIn, usersRouter);
+// server.use('/users', isLoggedIn, usersRouter);
+
 server.use('/ingredients', ingredientsRouter)
+// server.use('/ingredients', isLoggedIn, ingredientsRouter)
+
 server.use('/userrecipes', userRecipeRouter)
+// server.use('/userrecipes', isLoggedIn, userRecipeRouter)
+
 server.use('/seededrecipes', seededRecipeRouter)
+// server.use('/seededrecipes', IsLoggedIn, seededRecipeRouter)
+
 
 server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
 
