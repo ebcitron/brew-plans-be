@@ -21,28 +21,72 @@ const LocalStrategy = require('passport-local').Strategy;
 //   }
 // ));
 
-passport.use(new LocalStrategy(
-    function(email, password, done) {
-        UsersDB.findByEmail({ email: email }, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (!user.verifyPassword(password)) { return done(null, false); }
-        return done(null, user);
-      });
-    }
-  ));
+  // passport.serializeUser(function(user, cb) {
+  //   cb(null, user.id);
+  // });
+  
+  // passport.deserializeUser(function(id, cb) {
+  //   UsersDB.findById(id, function (err, user) {
+  //     if (err) { return cb(err); }
+  //     cb(null, user);
+  //   });
+  // });
 
-  passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
-  });
-  
-  passport.deserializeUser(function(id, cb) {
-    UsersDB.findById(id, function (err, user) {
-      if (err) { return cb(err); }
-      cb(null, user);
-    });
-  });
-  
+// passport.use('local' , new LocalStrategy(
+//     function(username, password, done) {
+//         UsersDB.FindByUsername({ username: username }, function (err, user) {
+//         if (err) { 
+//           return done(err); }
+//         if (!user) { return done(null, false); }
+//         if (!user.verifyPassword(password)) { return done(null, false); }
+//         return done(null, user);
+//       });
+//     }
+//   ));
+
+
+// passport.serializeUser(function (user, done) {
+//   done(null, UsersDB[0].id);
+// });
+// passport.deserializeUser(function (id, done) {
+//   done(null, UsersDB[0]);
+// });
+
+// passport.use('local', new LocalStrategy(
+//     function(username, password, done) {
+//         UsersDB.FindByUsername({ username: username }, function (err, user) {
+//         if (err) { 
+//           return done(err); }
+//         if (!user) { return done(null, false); }
+//         if (!user.verifyPassword(password)) { return done(null, false); }
+//         return done(null, user);
+//       });
+//     }
+//   ));
+
+var users = [
+  { id: 1, username: 'testing1', password: "testingseed1" }
+];
+
+passport.serializeUser(function (user, done) {
+  done(null, users[0].id);
+});
+passport.deserializeUser(function (id, done) {
+  done(null, users[0]);
+});
+
+
+passport.use('local', new LocalStrategy(
+  function (username, password, done) {
+      if (username === users[0].username && password === users[0].password) {
+          return done(null, users[0]);
+      } else {
+          return done(null, false, {"message": "User not found."});
+      }
+  })
+);
+
+
 const usersRouter = require('../database/models_routers/users/usersRouter.js')
 const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
 const userRecipeRouter = require('../database/models_routers/user_recipes/user_recipes_router.js')

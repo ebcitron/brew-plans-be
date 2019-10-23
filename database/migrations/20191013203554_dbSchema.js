@@ -4,7 +4,7 @@ exports.up = function(knex) {
         users.increments();
              
         users
-            .string('email', 60)
+            .string('username', 60)
             .notNullable()
             .unique();
         users
@@ -53,6 +53,8 @@ exports.up = function(knex) {
         seededed_recipes
             .string('instructions')
             .notNullable()
+        seededed_recipes
+            .string('brew_type')
     })
     .createTable('ingredients', ingredients => {
         ingredients.increments();

@@ -1,11 +1,19 @@
 const db = require('../../dbConfig.js');
 
+var users = [
+  { id: 1, username: 'testing1', password: "testingseed1" },
+  { id: 2, username: 'testing2', password: "testingseed2" },
+  { id: 3, username: 'testing3', password: "testingseed3" },
+  { id: 4, username: 'testing4', password: "testingseed4" },
+];
+
 module.exports = {
     findAllUsers,
     findById,
     add,
     removeUser,
-    findByEmail
+    findByEmail,
+    FindByUsername
   };
   
   function findAllUsers() {
@@ -31,20 +39,15 @@ function add(user) {
 }
 
     
-function findByEmail(id) {
+function findByEmail(email) {
   return db('users')
     .where({ email })
     .first();
 }
 
-// function findByEmail(email, cb) {
-//   process.nextTick(function() {
-//     for (var i = 0, len = records.length; i < len; i++) {
-//       var record = records[i];
-//       if (record.email === email) {
-//         return cb(null, record);
-//       }
-//     }
-//     return cb(null, null);
-//   });
-// }
+function FindByUsername(username) {
+  return db('users')
+    .where({ username })
+    .first();
+}
+ 
