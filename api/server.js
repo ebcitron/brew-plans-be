@@ -126,7 +126,6 @@ server.get('/', (req, res) => {
 server.post('/login', 
   passport.authenticate('local', { failureRedirect: '/' }),
     (req, res) => {
-        req.isAuthenticated()
         res.redirect('/master');
       });
 
@@ -134,6 +133,11 @@ server.get('/master',
     isLoggedIn, 
       (req, res) => {
           res.redirect('/users/allusers');
+        });
+
+server.get('/logout', function(req, res) {
+  req.logout();
+      res.send('logged out');
         });
 
 module.exports = server;
