@@ -10,6 +10,7 @@ router.get('/all', (req, res) => {
   });
 
   
+  
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     seededRecipes.findById(id)

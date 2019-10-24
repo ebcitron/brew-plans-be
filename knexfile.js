@@ -1,17 +1,21 @@
-// Update with your config settings.
-
 module.exports = {
   development: {
     client: 'sqlite3',
     useNullAsDefault: true,
-    connection: { filename: './database/data.db3' },
+    connection: { 
+      filename: './database/data.db3'
+     },
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.run('PRAGMA foreign_keys = ON', done);
+      },
+    },
     migrations: {
       directory: './database/migrations',
       tableName: 'dbmigrations',
     },
     seeds: { directory: './database/seeds' },
   },
-
   
   production: {
     client: 'pg',
@@ -19,6 +23,7 @@ module.exports = {
     migrations: {
         directory: __dirname + '/database/migrations',
       },
+      
     seeds: {
         directory: __dirname + '/database/seeds',
       },

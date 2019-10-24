@@ -10,7 +10,7 @@ describe('the server', () => {
 
         it('should return status of 200', () => {
             return request(server)
-                .get('/ingredients/allIngredients')
+                .get('/ingredients/all')
                 .then(res => {
                     expect(res.status).toBe(200);
             })

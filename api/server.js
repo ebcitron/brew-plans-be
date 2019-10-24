@@ -1,7 +1,91 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const UsersDB = require('../database/models_routers/users/usersModel.js');
 require('dotenv').config()
+
+const passport = require('passport');
+// var config = require('../oauth.js');
+// var GoogleStrategy = require('passport-google-oauth2').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+
+// passport.use(new GoogleStrategy({
+//     clientID: 449923889220-pa3veecaq72o4tiairfrputrj7f0dp2n.apps.googleusercontent.com,
+//     clientSecret: GOOGLE_CLIENT_SECRET,
+//     callbackURL: "http://www.example.com/auth/google/callback"
+//   },
+//   function(accessToken, refreshToken, profile, cb) {
+//     User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//       return cb(err, user);
+//     });
+//   }
+// ));
+
+  // passport.serializeUser(function(user, cb) {
+  //   cb(null, user.id);
+  // });
+  
+  // passport.deserializeUser(function(id, cb) {
+  //   UsersDB.findById(id, function (err, user) {
+  //     if (err) { return cb(err); }
+  //     cb(null, user);
+  //   });
+  // });
+
+// passport.use('local' , new LocalStrategy(
+//     function(username, password, done) {
+//         UsersDB.FindByUsername({ username: username }, function (err, user) {
+//         if (err) { 
+//           return done(err); }
+//         if (!user) { return done(null, false); }
+//         if (!user.verifyPassword(password)) { return done(null, false); }
+//         return done(null, user);
+//       });
+//     }
+//   ));
+
+
+// passport.serializeUser(function (user, done) {
+//   done(null, UsersDB[0].id);
+// });
+// passport.deserializeUser(function (id, done) {
+//   done(null, UsersDB[0]);
+// });
+
+// passport.use('local', new LocalStrategy(
+//     function(username, password, done) {
+//         UsersDB.FindByUsername({ username: username }, function (err, user) {
+//         if (err) { 
+//           return done(err); }
+//         if (!user) { return done(null, false); }
+//         if (!user.verifyPassword(password)) { return done(null, false); }
+//         return done(null, user);
+//       });
+//     }
+//   ));
+
+var users = [
+  { id: 1, username: 'testing1', password: "testingseed1" }
+];
+
+passport.serializeUser(function (user, done) {
+  done(null, users[0].id);
+});
+passport.deserializeUser(function (id, done) {
+  done(null, users[0]);
+});
+
+
+passport.use('local', new LocalStrategy(
+  function (username, password, done) {
+      if (username === users[0].username && password === users[0].password) {
+          return done(null, users[0]);
+      } else {
+          return done(null, false, {"message": "User not found."});
+      }
+  })
+);
+
 
 const usersRouter = require('../database/models_routers/users/usersRouter.js')
 const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
@@ -10,19 +94,57 @@ const seededRecipeRouter = require('../database/models_routers/seeded_recipes/se
 
 const server = express();
 
+server.use(require('morgan')('combined'));
+server.use(require('body-parser').urlencoded({ extended: true }));
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
 server.use('/users', usersRouter);
+// server.use('/users', isLoggedIn, usersRouter);
+
 server.use('/ingredients', ingredientsRouter)
+// server.use('/ingredients', isLoggedIn, ingredientsRouter)
+
 server.use('/userrecipes', userRecipeRouter)
+// server.use('/userrecipes', isLoggedIn, userRecipeRouter)
+
 server.use('/seededrecipes', seededRecipeRouter)
+// server.use('/seededrecipes', IsLoggedIn, seededRecipeRouter)
+
+
+server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
+
+server.use(passport.initialize());
+server.use(passport.session());
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+      return next();
+
+  res.sendStatus(401);
+}
 
 //test endpoints
 server.get('/', (req, res) => {
     res.status(200).json({ api: 'up' });
 });
 
+server.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/' }),
+    (req, res) => {
+        res.redirect('/master');
+      });
+
+server.get('/master', 
+    isLoggedIn, 
+      (req, res) => {
+          res.redirect('/users/allusers');
+        });
+
+server.get('/logout', function(req, res) {
+  req.logout();
+      res.send('logged out');
+        });
 
 module.exports = server;

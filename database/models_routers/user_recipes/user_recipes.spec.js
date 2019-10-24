@@ -10,17 +10,17 @@ describe('the server', () => {
 
         it('should return status of 200', () => {
             return request(server)
-                .get('/recipes/allrecipes')
+                .get('/userrecipes/all')
                 .then(res => {
                     expect(res.status).toBe(200);
             })
         })
 
-        it('should return status of 200', () => {
+        it('should return status of 404', () => {
             return request(server)
-                .get('/recipes/1')
+                .get('/userrecipes/999999999')
                 .then(res => {
-                    expect(res.status).toBe(200);
+                    expect(res.status).toBe(404);
             })
         })
 
