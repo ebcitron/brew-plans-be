@@ -55,6 +55,9 @@ exports.up = function(knex) {
             .notNullable()
         seededed_recipes
             .string('brew_type')
+        seededed_recipes
+        .integer('water_temp')
+        seededrecip
     })
     .createTable('ingredients', ingredients => {
         ingredients.increments();
