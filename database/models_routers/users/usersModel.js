@@ -1,11 +1,5 @@
 const db = require('../../dbConfig.js');
 
-var users = [
-  { id: 1, username: 'testing1', password: "testingseed1" },
-  { id: 2, username: 'testing2', password: "testingseed2" },
-  { id: 3, username: 'testing3', password: "testingseed3" },
-  { id: 4, username: 'testing4', password: "testingseed4" },
-];
 
 module.exports = {
     findAllUsers,
@@ -28,6 +22,7 @@ module.exports = {
 
 function add(user) {
   return db('users').insert(user, 'id').then((id) => {
+     console.log(user, id);
      return findById(id[0]);
    })
  }

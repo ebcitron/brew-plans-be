@@ -21,16 +21,16 @@ const LocalStrategy = require('passport-local').Strategy;
 //   }
 // ));
 
-  // passport.serializeUser(function(user, cb) {
-  //   cb(null, user.id);
-  // });
+// passport.serializeUser(function(user, cb) {
+//   cb(null, user.id);
+// });
   
-  // passport.deserializeUser(function(id, cb) {
-  //   UsersDB.findById(id, function (err, user) {
-  //     if (err) { return cb(err); }
-  //     cb(null, user);
-  //   });
-  // });
+// passport.deserializeUser(function(id, cb) {
+//   UsersDB.findById(id, function (err, user) {
+//     if (err) { return cb(err); }
+//     cb(null, user);
+//   });
+// });
 
 // passport.use('local' , new LocalStrategy(
 //     function(username, password, done) {
@@ -65,7 +65,7 @@ const LocalStrategy = require('passport-local').Strategy;
 //   ));
 
 var users = [
-  { id: 1, username: 'testing1', password: "testingseed1" }
+  { id: 1, username: 'testing1@gmail.com', password: "testingseed1" }
 ];
 
 passport.serializeUser(function (user, done) {
@@ -76,7 +76,11 @@ passport.deserializeUser(function (id, done) {
 });
 
 
-passport.use('local', new LocalStrategy(
+passport.use('local', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+},
+
   function (username, password, done) {
       if (username === users[0].username && password === users[0].password) {
           return done(null, users[0]);
