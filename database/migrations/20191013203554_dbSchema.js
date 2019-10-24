@@ -10,6 +10,9 @@ exports.up = function(knex) {
         users
             .string('password', 60)
             .notNullable();
+        users
+            .string('email', 60)
+            .unique();
       })
     .createTable('user_recipes', user_recipes => {
         user_recipes.increments();
