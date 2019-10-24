@@ -34,7 +34,7 @@ exports.up = function(knex) {
       //     .inTable('ingredients')
       //     .onDelete('CASCADE')
       //     .onUpdate('CASCADE');
-      user_recipes.integer("ingredient_qty");
+    //   user_recipes.integer("ingredient_qty");
     })
     .createTable("seeded_recipes", seededed_recipes => {
       seededed_recipes.increments();
