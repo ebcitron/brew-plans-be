@@ -29,12 +29,11 @@ async function findByRecipe(recipe_id) {
 }
 
 async function checkIngredient(ingredient_title) {
-  const { id } = await db("ingredients")
+  const id  = await db("ingredients")
     .where({ title: ingredient_title })
     .select("id")
     .first();
   if (id) {
-    console.log("ingredient_id", id);
     return id;
   } else {
     return null;
@@ -45,13 +44,8 @@ async function addQuantity(quantity, recipe_id, ingredient_title) {
   checkIngredient(ingredient_title)
     .then(ingredient_id => {
       if (!ingredient_id) {
-        console.log("adding ingredient", ingredient_id);
         add(ingredient_title)
           .then(ingredient_id => {
-            console.log(
-              "adding ro recipe_ingredients table, ingredient_id",
-              ingredient_id
-            );
             const id = addRecipe_Ingredients(
               quantity,
               recipe_id,
@@ -60,7 +54,7 @@ async function addQuantity(quantity, recipe_id, ingredient_title) {
             return id;
           })
           .catch(error => {
-            console.log("error adding to recipe_ingredients table", error);
+            console.log(error);
           });
       } else {
         const id = addRecipe_Ingredients(quantity, recipe_id, ingredient_id);
@@ -79,9 +73,7 @@ async function addRecipe_Ingredients(quantity, recipe_id, ingredient_id) {
 }
 
 async function add(ingredient) {
-  console.log("ingredientMODEL", ingredient);
   const [id] = await db("ingredients").insert({ title: ingredient });
-
   return id;
 }
 

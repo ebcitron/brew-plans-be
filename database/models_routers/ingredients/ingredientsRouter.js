@@ -29,21 +29,18 @@ router.get("/:id", (req, res) => {
       res.status(500).json({ message: "Failed to get ingredient" });
     });
 });
-//changed route, working on changing model to simplify this currently nonfunctional function
+
 router.post("/:id/newingredient", (req, res) => {
   let { quantity, ingredient_title } = req.body;
   const recipe_id = req.params.id;
-  Ingredient.addQuantity(quantity, recipe_id, ingredient_title).then(
-    ingredient_id => {
-      res
-        .status(201)
-        .json({ message: "Ingredient successfully added" })
-        .catch(error => {
-          console.log("error", error);
-          res.status(500).json(error);
-        });
-    }
-  );
+  Ingredient.addQuantity(quantity, recipe_id, ingredient_title)
+    .then(ingredient_id => {
+      res.status(201).json({ message: "Ingredient successfully added" });
+    })
+    .catch(error => {
+      console.log("error", error);
+      res.status(500).json({ message: "Unable to add ingredient" });
+    });
 });
 
 router.delete("/:id", (req, res) => {
