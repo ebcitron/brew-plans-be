@@ -58,7 +58,7 @@ exports.up = function(knex) {
         .notNullable()
         .references("id")
         .inTable("user_recipes")
-        .onDelete("CASCADE")('CASCADE').onUpdate('CASCADE')
+        .onDelete("CASCADE").onUpdate('CASCADE')
         .onUpdate("CASCADE");
       recipe_ingredients.string("quantity", 60);
       recipe_ingredients
@@ -74,6 +74,7 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
+    .dropTableIfExists("recipe-ingredients")
     .dropTableIfExists("ingredients")
     .dropTableIfExists("seeded_recipes")
     .dropTableIfExists("user_recipes")
