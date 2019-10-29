@@ -20,6 +20,26 @@ function findById(id) {
     .where({ id })
     .first();
 }
+
+async function add(ingredient) {
+  const [id] = await db("ingredients").insert({ title: ingredient });
+  return id;
+}
+
+function removeIngredient(id) {
+  return db("ingredients")
+    .where({ id })
+    .del();
+}
+
+function updateIngredient(id, changes) {
+  return db("ingredients")
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      return findById(id);
+    });
+}
 async function findByRecipe(recipe_id) {
   const ingredients = await db("recipe_ingredients as ri")
     .where({ recipe_id: recipe_id })
@@ -29,7 +49,7 @@ async function findByRecipe(recipe_id) {
 }
 
 async function checkIngredient(ingredient_title) {
-  const id  = await db("ingredients")
+  const id = await db("ingredients")
     .where({ title: ingredient_title })
     .select("id")
     .first();
@@ -70,24 +90,4 @@ async function addRecipe_Ingredients(quantity, recipe_id, ingredient_id) {
   const ingredient = { quantity, recipe_id, ingredient_id };
   const [id] = await db("recipe_ingredients").insert(ingredient);
   return id;
-}
-
-async function add(ingredient) {
-  const [id] = await db("ingredients").insert({ title: ingredient });
-  return id;
-}
-
-function removeIngredient(id) {
-  return db("ingredients")
-    .where({ id })
-    .del();
-}
-
-function updateIngredient(id, changes) {
-  return db("ingredients")
-    .where({ id })
-    .update(changes)
-    .then(count => {
-      return findById(id);
-    });
 }
