@@ -21,12 +21,14 @@ module.exports = {
 }
 
 function add(user) {
-  return db('users').insert(user, 'id').then((id) => {
-     console.log(user, id);
-     return findById(id[0]);
-   })
+  return db('users').insert(user, 'id')
  }
  
+//  .then((id) => {
+//   //  console.log(user, id);
+//   //  return findById(id[0]);
+//  })
+
   function removeUser(id) {
     return db('users')
       .where({ id })
