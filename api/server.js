@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const UsersDB = require('../database/models_routers/users/usersModel.js');
+// const UsersDB = require('../database/models_routers/users/usersModel.js');
 require('dotenv').config()
 
 const passport = require('passport');
 // var config = require('../oauth.js');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
+// const LocalStrategy = require('passport-local').Strategy;
 
 // passport.use(new GoogleStrategy({
 //     clientID: 449923889220-pa3veecaq72o4tiairfrputrj7f0dp2n.apps.googleusercontent.com,
@@ -107,17 +107,17 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.use('/users', usersRouter);
-// server.use('/users', checkIfAuthenticated, usersRouter);
+// server.use('/users', usersRouter);
+server.use('/users', checkIfAuthenticated, usersRouter);
 
-server.use('/ingredients', ingredientsRouter)
-// server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
+// server.use('/ingredients', ingredientsRouter)
+server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
 
-server.use('/userrecipes', userRecipeRouter)
-// server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
+// server.use('/userrecipes', userRecipeRouter)
+server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
 
-server.use('/seededrecipes', seededRecipeRouter)
-// server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
+// server.use('/seededrecipes', seededRecipeRouter)
+server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
 
 
 server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
@@ -133,7 +133,6 @@ server.use(passport.session());
 // }
 
 server.post('/auth/signup', createUser);
-
 
 //test endpoints
 // server.get('/', (req, res) => {
