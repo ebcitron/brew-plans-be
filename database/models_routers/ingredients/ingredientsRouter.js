@@ -45,8 +45,9 @@ router.post("/:id/newingredient", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-
-  Ingredient.removeIngredient(id)
+  const { ingredient_id } = req.body;
+  Ingredient.deleteRecipe_Ingredients(id, ingredient_id)
+    // Ingredient.removeIngredient(id)
     .then(deleted => {
       if (deleted) {
         res.json({ removed: deleted });
@@ -61,15 +62,16 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const changes = req.body;
-
-  Ingredient.updateIngredient(id, changes)
+router.put("/:recipe_id", async(req, res) => {
+  const { recipe_id } = req.params;
+  const { quantity, ingredient_title } = req.body;
+  await Ingredient.updateQuantity(quantity, recipe_id, ingredient_title)
     .then(ingredient => {
-      if (ingredient) {
-        res.json({ updated: ingredient });
+      console.log("HERE", ingredient);
+      if (ingredient >=0) {
+        res.status(200).json({ updated: ingredient });
       } else {
+        console.log("PUT ELSE", ingredient);
         res.status(404).json({ message: "Could not find ingredient id" });
       }
     })
