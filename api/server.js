@@ -107,17 +107,17 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-// server.use('/users', usersRouter);
-server.use('/users', checkIfAuthenticated, usersRouter);
+server.use('/users', usersRouter);
+// server.use('/users', checkIfAuthenticated, usersRouter);
 
-// server.use('/ingredients', ingredientsRouter)
-server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
+server.use('/ingredients', ingredientsRouter)
+// server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
 
-// server.use('/userrecipes', userRecipeRouter)
-server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
+server.use('/userrecipes', userRecipeRouter)
+// server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
 
-// server.use('/seededrecipes', seededRecipeRouter)
-server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
+server.use('/seededrecipes', seededRecipeRouter)
+// server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
 
 
 server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
