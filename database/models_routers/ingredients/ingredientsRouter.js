@@ -64,8 +64,8 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:recipe_id", async(req, res) => {
   const { recipe_id } = req.params;
-  const { quantity, ingredient_title } = req.body;
-  await Ingredient.updateQuantity(quantity, recipe_id, ingredient_title)
+  const { quantity, ingredient_title, quantity_id } = req.body;
+  await Ingredient.updateQuantity(quantity, recipe_id, ingredient_title, quantity_id)
     .then(ingredient => {
       console.log("HERE", ingredient);
       if (ingredient >=0) {

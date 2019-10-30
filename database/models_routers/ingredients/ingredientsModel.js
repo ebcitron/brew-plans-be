@@ -45,8 +45,15 @@ async function findByRecipe(recipe_id) {
   const ingredients = await db("recipe_ingredients as ri")
     .where({ recipe_id: recipe_id })
     .join("ingredients as i", "i.id", "ri.ingredient_id")
-    .select("ri.quantity as quantity", "i.title as ingredient");
+    .select("ri.quantity as quantity", "i.title as ingredient", "ri.id as id");
   return ingredients;
+}
+
+async function findByQuantity(quantity_id) {
+  const quantity = await db("recipe_ingredients")
+    .where({ id: quantity_id })
+    .first();
+  return quantity;
 }
 
 async function checkIngredient(ingredient_title) {
@@ -97,10 +104,10 @@ async function addRecipe_Ingredients(quantity, recipe_id, ingredient_id) {
   return id;
 }
 
-async function updateRecipe_Ingredients(quantity, recipe_id, ingredient_id) {
+async function updateRecipe_Ingredients(id, quantity) {
   const result = await db("recipe_ingredients")
-    .where({ ingredient_id: ingredient_id, recipe_id: recipe_id })
-    .update({ quantity: quantity });
+    .where({ id: id })
+    .update(quantity);
   console.log("result updateRecipe_Ingredients", result);
   return result;
 }
@@ -119,32 +126,24 @@ async function deleteRecipe_Ingredients(recipe_id, ingredient_id) {
     });
 }
 
-async function updateQuantity(quantity, recipe_id, ingredient_title) {
-  let deleteIngredient = false
+async function updateQuantity(
+  quantity,
+  recipe_id,
+  ingredient_title,
+  quantity_id
+) {
   let ingredient_id = await checkIngredient(ingredient_title);
-  let currentIngredient = await 
   console.log("1update quantity ingredient id", ingredient_id);
   if (!ingredient_id) {
- 
     ingredient_id = await add(ingredient_title);
     // quantity table with new ingredient_id
-    console.log("2update quantity ingredient id", ingredient_id);
+    console.log("if statement quantity ingredient id", ingredient_id);
   }
-    const result = await updateRecipe_Ingredients(
-      quantity,
-      recipe_id,
-      ingredient_id
-    );
-    console.log("2update resuly", result);
-    return result;
-  if (deleteIngredient) {
-
-
-
-
-    removeIngredient(ingredient_id)
-  }
+  const result = await updateRecipe_Ingredients(quantity_id, {
+    quantity,
+    recipe_id,
+    ingredient_id
+  });
+  console.log("2update result", result);
+  return result;
 }
-
-
-async function getQuantity()
