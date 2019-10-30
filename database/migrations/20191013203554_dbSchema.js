@@ -62,7 +62,7 @@ exports.up = function(knex) {
         .onDelete("CASCADE")
         .onUpdate("CASCADE")
         .onUpdate("CASCADE");
-      recipe_ingredients.string("quantity", 60);
+      recipe_ingredients.string("quantity", 60).notNullable();
       recipe_ingredients
         .integer("ingredient_id")
         .unsigned()
