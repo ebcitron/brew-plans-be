@@ -45,9 +45,9 @@ router.post("/:recipe_id/newingredient", async (req, res) => {
       if (!result) {
         badResults.push(ingredient_title);
       }
-      console.log("result", result);
+      // console.log("result", result);
     }
-    console.log("badResults", badResults);
+    // console.log("badResults", badResults);
     if (badResults.length === 0) {
       res.status(201).json({ message: "Ingredient successfully added" });
     } else {
@@ -58,7 +58,7 @@ router.post("/:recipe_id/newingredient", async (req, res) => {
         });
     }
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     res.status(500).json({ message: "Unable to add ingredients" });
   }
 });
@@ -67,7 +67,7 @@ router.delete("/:quantity_id", async (req, res) => {
   const { quantity_id } = req.params;
   try {
     const deleted = await Ingredient.deleteRecipe_Ingredients(quantity_id);
-    console.log("deleted", deleted);
+    // console.log("deleted", deleted);
     if (deleted) {
       res.status(204).json({ removed: deleted });
     } else {
@@ -88,21 +88,21 @@ router.put("/:recipe_id", async (req, res) => {
   try {
     for (let i = 0; i < updateArray.length; i++) {
       const { quantity, ingredient_title, quantity_id } = updateArray[i];
-      console.log("Array Item", updateArray[i]);
+      // console.log("Array Item", updateArray[i]);
       result = await Ingredient.updateQuantity(
         quantity,
         recipe_id,
         ingredient_title,
         quantity_id
       );
-      console.log("RESULT", result);
+      // console.log("RESULT", result);
       countResults += result;
     }
-    console.log("results array", countResults);
+    // console.log("results array", countResults);
     if (countResults === updateArray.length) {
       res.status(200).json({ message: "Ingredients successfully updated" });
     } else {
-      console.log("PUT ELSE", ingredient);
+      // console.log("PUT ELSE", ingredient);
       res
         .status(404)
         .json({ message: "Something went wrong with this update" });

@@ -93,9 +93,9 @@ async function addQuantity(quantity, recipe_id, ingredient_title) {
 
 async function addRecipe_Ingredients(quantity, recipe_id, ingredient_id) {
   const ingredient = { quantity, recipe_id, ingredient_id };
-  console.log("addRecipeIngredients ingredient", ingredient);
+  // console.log("addRecipeIngredients ingredient", ingredient);
   const [id] = await db("recipe_ingredients").insert(ingredient);
-  console.log("addRecipe_ingredients id", id);
+  // console.log("addRecipe_ingredients id", id);
   return id;
 }
 
@@ -103,7 +103,7 @@ async function updateRecipe_Ingredients(id, quantity) {
   const result = await db("recipe_ingredients")
     .where({ id: id })
     .update(quantity);
-  console.log("result updateRecipe_Ingredients", result);
+  // console.log("result updateRecipe_Ingredients", result);
   return result;
 }
 
@@ -120,14 +120,14 @@ async function updateQuantity(
   quantity_id
 ) {
   let ingredient_id = await checkIngredient(ingredient_title);
-  console.log("1update quantity ingredient id", ingredient_id);
+  // console.log("1update quantity ingredient id", ingredient_id);
   if (!ingredient_id) {
     ingredient_id = await add(ingredient_title);
-    console.log("if statement quantity ingredient id", ingredient_id);
+    // console.log("if statement quantity ingredient id", ingredient_id);
   }
   const changes = { quantity, recipe_id, ingredient_id };
   const result = await updateRecipe_Ingredients(quantity_id, changes);
 
-  console.log("2update result", result);
-  return result;
+  // console.log("2update result", result);
+   return result;
 }

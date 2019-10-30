@@ -10,6 +10,15 @@ exports.up = function(knex) {
         .notNullable()
         .unique();
     })
+    .createTable("seeded_recipes", seededed_recipes => {
+      seededed_recipes.increments();
+
+      seededed_recipes.string("title", 60).notNullable();
+      seededed_recipes.string("instructions").notNullable();
+      seededed_recipes.string("brew_type");
+      seededed_recipes.integer("water_temp");
+      seededed_recipes.string("coarseness");
+    })
     .createTable("user_recipes", user_recipes => {
       user_recipes.increments();
 
@@ -26,7 +35,7 @@ exports.up = function(knex) {
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
       user_recipes.string("coarseness");
-      user_recipes.string("instructions");
+      // user_recipes.string("instructions");
       // user_recipes
       //     .integer('ingredients_id')
       //     .unsigned()
@@ -37,15 +46,20 @@ exports.up = function(knex) {
       //     .onUpdate('CASCADE');
       //   user_recipes.integer("ingredient_qty");
     })
-    .createTable("seeded_recipes", seededed_recipes => {
-      seededed_recipes.increments();
-
-      seededed_recipes.string("title", 60).notNullable();
-      seededed_recipes.string("instructions").notNullable();
-      seededed_recipes.string("brew_type");
-      seededed_recipes.integer("water_temp");
-      seededed_recipes.string("coarseness");
+    .createTable("instructions", instructions => {
+      instructions.increments();
+      instructions.integer("order").notNullable();
+      instructions.string("text").notNullable();
+      instructions
+        .integer("recipe_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("user_recipes")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
     })
+
     .createTable("ingredients", ingredients => {
       ingredients.increments();
 
@@ -78,7 +92,8 @@ exports.down = function(knex) {
   return knex.schema
     .dropTableIfExists("recipe_ingredients")
     .dropTableIfExists("ingredients")
-    .dropTableIfExists("seeded_recipes")
+    .dropTableIfExists("instructions")
     .dropTableIfExists("user_recipes")
+    .dropTableIfExists("seeded_recipes")
     .dropTableIfExists("users");
 };
