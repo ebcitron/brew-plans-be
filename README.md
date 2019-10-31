@@ -30,24 +30,39 @@ To get the server running locally:
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
-#### Organization Routes
+#### Seeded Recipes Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| GET    | `/seededRecipes/all` | N/A      | Returns every seeded recipe in the database|
+| GET    | `/seededRecipes/:id` | N/A      | Returns seeded recipe by ID|
+| POST   | `/seededRecipes/newseed` | N/A         | Creates a new seeded recipe|
+| PUT    | `/seededRecipes/:id` | N/A         | Updates seed by ID|
+
+#### Ingredients Routes(removed/changed after RC1)
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/ingredients/all` | N/A      | Returns every ingredient in the database|
+| GET    | `/seededRecipes/:id` | N/A      | Returns ingredient by ID|
+| POST   | `/seededRecipes/newingredient` | N/A         | Creates a new ingredient|
+| PUT    | `/seededRecipes/:id` | N/A         | Updates ingredient by ID|
+
+
+#### User Recipes Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/seededRecipes/all` | N/A      | Returns every seeded recipe in the database|
+| GET    | `/seededRecipes/:id` | N/A      | Returns seeded recipe by ID|
+| POST   | `/seededRecipes/newseed` | N/A     | Creates a new seeded recipe|
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint            | Access Control      | Description                                      
+| POST    | `/register`        | new users           | registers the users with firebase authenticaion, returns all of the users headers|
+| POST    | `/login`           | registerd users     | logs in the user|
+
 
 # Data Model
 
@@ -55,37 +70,42 @@ To get the server running locally:
 
 #### 2️⃣ ORGANIZATIONS
 
----
-
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
-
 #### USERS
 
----
-
-```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  id: ID
+  username: string
+  password: string
 }
+
+#### USER RECIPES
+
+{
+  id: ID
+  title: string
+  brew_type: string
+  public_private: binary
+  water_temp: integer
+  user_id: id that references to the user id
+  ingredient_qty: integer
+}
+
+#### SEEDED RECIPES
+
+{
+  id: ID
+  title: string
+  instructions: string
+  brew_type: string 
+}
+
+#### INGREDIENTS
+
+{
+  id: ID
+  title: string
+}
+
 ```
 
 ## 2️⃣ Actions
