@@ -66,10 +66,6 @@ To get the server running locally:
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
-
 #### USERS
 
 {
@@ -110,7 +106,8 @@ To get the server running locally:
   title: string
 }
 
-```
+#### 2️⃣ ORGANIZATIONS
+
 
 ## 2️⃣ Actions
 
