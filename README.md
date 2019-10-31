@@ -59,8 +59,9 @@ To get the server running locally:
 
 #### User Routes
 
-| Method | Endpoint            | Access Control      | Description                                      
-| POST    | `/register`        | new users           | registers the users with firebase authenticaion, returns all of the users headers|
+| Method | Endpoint            | Access Control      | Description                                 |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| POST    | `/register`        | new users           | registers the users with firebase authenticaion|
 | POST    | `/login`           | registerd users     | logs in the user|
 
 
@@ -68,46 +69,47 @@ To get the server running locally:
 
 #### USERS
 
-{
-  id: ID
-  email: string
-  username: string
-  password: string
-}
+
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| email    | string     |
+| username    | string     |
+| password    | string     |
 
 #### USER RECIPES
 
-{
-  id: ID
-  title: string
-  brew_type: string
-  public_private: binary
-  water_temp: integer
-  user_id: id that references to the user id
-  coarseness: string
-  ingredient_qty: integer
-}
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| title    | string     |
+| brew_type    | string     |
+| public_private    | binary     |
+| water_temp    | integer     |
+| user_id    | id that references to the user id |
+| coarseness    | string     |
+| ingredient_qty    | integer   |
+
 
 #### SEEDED RECIPES
 
-{
-  id: ID
-  title: string
-  instructions: string
-  brew_type: string 
-  water_temp: integer
-  coarseness: string
-}
+
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| title    | string     |
+| instructions    | string     |
+| brew_type    | string     |
+| water_temp    | integer     |
+| coarseness    | integer |
 
 #### INGREDIENTS
 
-{
-  id: ID
-  title: string
-}
 
-#### 2️⃣ ORGANIZATIONS
-
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| title    | string     |
 
 ## 2️⃣ Actions
 
