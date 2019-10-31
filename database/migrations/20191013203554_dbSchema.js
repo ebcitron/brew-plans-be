@@ -18,7 +18,7 @@ exports.up = function(knex) {
       user_recipes.binary("public_private");
       user_recipes.integer("water_temp");
       user_recipes
-        .integer("user_id")
+        .string("user_id")
         .unsigned()
         .notNullable()
         .references("id")
