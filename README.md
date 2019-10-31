@@ -74,6 +74,7 @@ To get the server running locally:
 
 {
   id: ID
+  email: string
   username: string
   password: string
 }
@@ -87,6 +88,7 @@ To get the server running locally:
   public_private: binary
   water_temp: integer
   user_id: id that references to the user id
+  coarseness: string
   ingredient_qty: integer
 }
 
@@ -97,6 +99,8 @@ To get the server running locally:
   title: string
   instructions: string
   brew_type: string 
+  water_temp: integer
+  coarseness: string
 }
 
 #### INGREDIENTS
