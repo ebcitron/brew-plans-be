@@ -3,6 +3,7 @@ exports.up = function(knex) {
     .createTable("users", users => {
       users.increments();
 
+      users.string("userString").unique();
       users.string("username", 60).unique();
       users.string("password", 60).notNullable();
       users
@@ -17,8 +18,16 @@ exports.up = function(knex) {
       user_recipes.string("brew_type", 60);
       user_recipes.binary("public_private");
       user_recipes.integer("water_temp");
+      // user_recipes
+      //   .string("user_id")
+      //   .unsigned()
+      //   .notNullable()
+      //   .references("id")
+      //   .inTable("users")
+      //   .onDelete("CASCADE")
+      //   .onUpdate("CASCADE");
       user_recipes
-        .string("user_id")
+        .integer("user_id")
         .unsigned()
         .notNullable()
         .references("id")
