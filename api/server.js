@@ -134,10 +134,10 @@ server.use(passport.session());
 
 server.post('/auth/signup', createUser);
 
-//test endpoints
-// server.get('/', (req, res) => {
-//     res.status(200).json({ api: 'up' });
-// });
+// test endpoints
+server.get('/', (req, res) => {
+    res.status(200).json({ api: 'up' });
+});
 
 // server.post('/login', 
 //   passport.authenticate('local', { failureRedirect: '/' }),
