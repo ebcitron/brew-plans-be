@@ -30,103 +30,146 @@ To get the server running locally:
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
-#### Organization Routes
+#### Seeded Recipes Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| GET    | `/seededRecipes/all` | N/A      | Returns every seeded recipe in the database|
+| GET    | `/seededRecipes/:id` | N/A      | Returns seeded recipe by ID|
+| POST   | `/seededRecipes/newseed` | N/A         | Creates a new seeded recipe|
+| PUT    | `/seededRecipes/:id` | N/A         | Updates seed by ID|
+
+#### Ingredients Routes(removed/changed after RC1)
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/ingredients/all` | N/A      | Returns every ingredient in the database|
+| GET    | `/seededRecipes/:id` | N/A      | Returns ingredient by ID|
+| POST   | `/seededRecipes/newingredient` | N/A         | Creates a new ingredient|
+| PUT    | `/seededRecipes/:id` | N/A         | Updates ingredient by ID|
+
+
+#### User Recipes Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/seededRecipes/all` | N/A      | Returns every seeded recipe in the database|
+| GET    | `/seededRecipes/:id` | N/A      | Returns seeded recipe by ID|
+| POST   | `/seededRecipes/newseed` | N/A     | Creates a new seeded recipe|
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint            | Access Control      | Description                                 |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| POST    | `/register`        | new users           | registers the users with firebase authenticaion|
+| POST    | `/login`           | registerd users     | logs in the user|
+
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
-
 #### USERS
 
----
 
-```
-{
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
-}
-```
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| email    | string     |
+| username    | string     |
+| password    | string     |
+
+#### USER RECIPES
+
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| title    | string     |
+| brew_type    | string     |
+| public_private    | binary     |
+| water_temp    | integer     |
+| user_id    | id that references to the user id |
+| coarseness    | string     |
+| ingredient_qty    | integer   |
+
+
+#### SEEDED RECIPES
+
+
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| title    | string     |
+| instructions    | string     |
+| brew_type    | string     |
+| water_temp    | integer     |
+| coarseness    | integer |
+
+#### INGREDIENTS
+
+
+| NAME OF HEADER | TYPE |
+| ------ | ----------------------- |
+| id    | ID     |
+| title    | string     |
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+#### REGISTER/LOGIN
 
-`getOrgs()` -> Returns all organizations
+| ACTION NAME | DESCRIPTION |
+| ------ | ----------------------- |
+| `createUser()` | sends the user information up to firebase and registers a new user|
+| `checkIfAuthenticated()` | checks the user information against the firebase creds for auth |
 
-`getOrg(orgId)` -> Returns a single organization by ID
+#### USERS
 
-`addOrg(org)` -> Returns the created org
+| ACTION NAME | DESCRIPTION |
+| ------ | ----------------------- |
+| `findAllUsers()` | Returns all Users in the database |
+| `findById(id)` | Returns User by ID |
+| `add(user)` | Adds User by ID |
+| `removeUser(id)` | Removes User by ID |
+| `findByEmail(email)` | Finds User by Email |
+| `FindByUsername(username)` | Finds User by Username |
 
-`updateOrg(orgId)` -> Update an organization by ID
+#### SEEDED RECIPES
 
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
+| ACTION NAME | DESCRIPTION |
+| ------ | ----------------------- |
+| `findAllSeededRecipes()` | Returns all seeded recipes in the database |
+| `findById(id)` | Returns seeded recipe by ID |
+| `add(seeded_recipes)` | Adds new seeded recipe |
+| `removeSeededRecipe(id)` | Removes seeded recipe by ID |
+| `updateSeededRecipe(id, changes)` | Updates seeded recipe by ID |
 
-`getUser(userId)` -> Returns a single user by user ID
+#### USER RECIPES
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+| ACTION NAME | DESCRIPTION |
+| ------ | ----------------------- |
+| `findAllRecipes()` | Returns all User recipes in the database |
+| `findById(id)` | Returns user recipe by ID |
+| `add(recipe)` | Adds new user recipe |
+| `removeRecipe(id)` | Removes user recipe by ID |
+| `updateUserRecipe(id, changes)` | Updates user recipe by ID |
+| `findPostsByUserId(user_id)` | Updates user recipe by ID |
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+#### INGREDIENTS
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+| ACTION NAME | DESCRIPTION |
+| ------ | ----------------------- |
+| `findAllIngredients()` | Returns all ingredients in the database |
+| `findById(id)` | Returns ingredient by ID |
+| `add(recipe)` | Adds new ingredient |
+| `removeIngredient(id)` | Removes ingredient by ID |
+| `updateIngredient(id, changes)` | Updates ingredient by ID |
+| `findByRecipe(recipe_id)` | Returns recipe by recipe ID |
+| `checkIngredient(ingredient_title)` | Checks to see if the ingredient already exists by its title |
+| `addQuantity(quantity, recipe_id, ingredient_title))` | Adding quantity by qty, recpie_id, and title |
 
 ## 3️⃣ Environment Variables
 
-In order for the app to function correctly, the user must set up their own environment variables.
-
-create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    * ENV = PORT: 6000
+    * PROCFILE: Development(web npm start)
+    * PROCFILE: Production()
     
 ## Contributing
 

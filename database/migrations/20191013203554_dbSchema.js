@@ -1,74 +1,82 @@
-
 exports.up = function(knex) {
-    return knex.schema.createTable('users', users => {
-        users.increments();
-             
-        users
-            .string('username', 60)
-            .notNullable()
-            .unique();
-        users
-            .string('password', 60)
-            .notNullable();
-      })
-    .createTable('user_recipes', user_recipes => {
-        user_recipes.increments();
+  return knex.schema
+    .createTable("users", users => {
+      users.increments();
 
-        user_recipes
-            .string('title', 255)
-            .notNullable()
-        user_recipes   
-            .string('brew_type', 60)
-        user_recipes
-            .binary('public_private')
-        user_recipes
-            .integer('water_temp');
-        user_recipes   
-            .integer('user_id')
-            .unsigned()
-            .notNullable()
-            .references('id')
-            .inTable('users')
-            .onDelete('CASCADE')
-            .onUpdate('CASCADE');
-        user_recipes
-            .string('coarseness')
-        // user_recipes
-        //     .integer('ingredients_id')
-        //     .unsigned()
-        //     // .notNullable()
-        //     .references('id')
-        //     .inTable('ingredients')
-        //     .onDelete('CASCADE')
-        //     .onUpdate('CASCADE');
-        user_recipes
-            .integer('ingredient_qty')
+      users.string("username", 60).unique();
+      users.string("password", 60).notNullable();
+      users
+        .string("email", 60)
+        .notNullable()
+        .unique();
     })
-    .createTable('seeded_recipes', seededed_recipes => {
-        seededed_recipes.increments();
+    .createTable("user_recipes", user_recipes => {
+      user_recipes.increments();
 
-        seededed_recipes
-            .string('title', 60)
-            .notNullable();
-        seededed_recipes
-            .string('instructions')
-            .notNullable()
-        seededed_recipes
-            .string('brew_type')
+      user_recipes.string("title", 255).notNullable();
+      user_recipes.string("brew_type", 60);
+      user_recipes.binary("public_private");
+      user_recipes.integer("water_temp");
+      user_recipes
+        .string("user_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("users")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      user_recipes.string("coarseness");
+      // user_recipes
+      //     .integer('ingredients_id')
+      //     .unsigned()
+      //     // .notNullable()
+      //     .references('id')
+      //     .inTable('ingredients')
+      //     .onDelete('CASCADE')
+      //     .onUpdate('CASCADE');
+    //   user_recipes.integer("ingredient_qty");
     })
-    .createTable('ingredients', ingredients => {
-        ingredients.increments();
+    .createTable("seeded_recipes", seededed_recipes => {
+      seededed_recipes.increments();
 
-        ingredients
-            .string('title', 60)
-            .notNullable();
+      seededed_recipes.string("title", 60).notNullable();
+      seededed_recipes.string("instructions").notNullable();
+      seededed_recipes.string("brew_type");
+      seededed_recipes.integer("water_temp");
+      seededed_recipes.string("coarseness");
     })
+    .createTable("ingredients", ingredients => {
+      ingredients.increments();
+
+      ingredients.string("title", 60).notNullable();
+    })
+    .createTable("recipe_ingredients", recipe_ingredients => {
+      recipe_ingredients.increments();
+      recipe_ingredients
+        .integer("recipe_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("user_recipes")
+        .onDelete("CASCADE").onUpdate('CASCADE')
+        .onUpdate("CASCADE");
+      recipe_ingredients.string("quantity", 60);
+      recipe_ingredients
+        .integer("ingredient_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("ingredients")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+    });
 };
 
 exports.down = function(knex) {
-    return knex.schema
-        .dropTableIfExists('ingredients')
-        .dropTableIfExists('seeded_recipes')
-        .dropTableIfExists('user_recipes')
-        .dropTableIfExists('users')
+  return knex.schema
+    .dropTableIfExists("recipe_ingredients")
+    .dropTableIfExists("ingredients")
+    .dropTableIfExists("seeded_recipes")
+    .dropTableIfExists("user_recipes")
+    .dropTableIfExists("users");
 };
