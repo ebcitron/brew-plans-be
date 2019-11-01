@@ -19,6 +19,8 @@ module.exports = {
       .first();
 }
 
+
+
 async function add(recipe) {
   const [id] = await db('user_recipes').insert(recipe);
 
@@ -41,10 +43,7 @@ function updateUserRecipe(id, changes) {
 }
 
 function findPostsByUserId(user_id) {
-  return db('users as u')
-  .join('user_recipes as ur','ur.user_id', 'u.id')
-  .select('ur.id', 'ur.title', 'ur.brew_type', 'ur.public_private', 'ur.water_temp', 'ur.ingredient_qty')
-  .orderBy('ur.id')
+  return db('user_recipes')
   .where({ user_id })
 }
 

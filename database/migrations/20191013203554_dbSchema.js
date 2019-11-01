@@ -17,15 +17,9 @@ exports.up = function(knex) {
       user_recipes.string("brew_type", 60);
       user_recipes.binary("public_private");
       user_recipes.integer("water_temp");
-      user_recipes
-        .integer("user_id")
-        .unsigned()
-        .notNullable()
-        .references("id")
-        .inTable("users")
-        .onDelete("CASCADE")
-        .onUpdate("CASCADE");
+      user_recipes.string("user_id").notNullable()
       user_recipes.string("coarseness");
+      user_recipes.string("instructions", 5000)
       // user_recipes
       //     .integer('ingredients_id')
       //     .unsigned()

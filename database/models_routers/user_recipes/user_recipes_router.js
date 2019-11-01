@@ -83,7 +83,7 @@ router.post('/newrecipe', (req, res) => {
     Recipes.findPostsByUserId(user_id)
     .then(recipe => {
       if (recipe) {
-        res.json(recipe);
+        res.status(200).json(recipe);
       } else {
         res.status(404).json({ message: 'Could not find recipes for given user' })
       }
