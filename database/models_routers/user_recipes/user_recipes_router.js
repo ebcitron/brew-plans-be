@@ -42,8 +42,8 @@ router.post('/newrecipe', (req, res) => {
   });
   
 
-  router.delete('/:id', (req, res) => {
-    const { id }  = req.params; 
+router.delete('/:id', (req, res) => {
+  const { id }  = req.params; 
   
     Recipes.removeRecipe(id)
     .then(deleted => {
@@ -62,7 +62,7 @@ router.post('/newrecipe', (req, res) => {
 
     const { id } = req.params;
     const changes = req.body;
-  
+    
     Recipes.updateUserRecipe(id, changes)
       .then(recipe => {
         if (recipe) {
