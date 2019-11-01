@@ -1,10 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-// const UsersDB = require('../database/models_routers/users/usersModel.js');
 require('dotenv').config()
 
-const passport = require('passport');
+// const passport = require('passport');
 // var config = require('../oauth.js');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
 // const LocalStrategy = require('passport-local').Strategy;
@@ -120,10 +119,10 @@ server.use('/seededrecipes', seededRecipeRouter)
 // server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
 
 
-server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
+// server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
 
-server.use(passport.initialize());
-server.use(passport.session());
+// server.use(passport.initialize());
+// server.use(passport.session());
 
 // function isLoggedIn(req, res, next) {
 //   if (req.isAuthenticated())
@@ -134,10 +133,10 @@ server.use(passport.session());
 
 server.post('/auth/signup', createUser);
 
-//test endpoints
-// server.get('/', (req, res) => {
-//     res.status(200).json({ api: 'up' });
-// });
+// test endpoints
+server.get('/', (req, res) => {
+    res.status(200).json({ api: 'up' });
+});
 
 // server.post('/login', 
 //   passport.authenticate('local', { failureRedirect: '/' }),
@@ -150,6 +149,12 @@ server.get('/master',
       (req, res) => {
           res.redirect('/users/allusers');
         });
+
+// server.get('/master', 
+//       checkIfAdmin, 
+//           (req, res) => {
+//               res.redirect('/users/allusers');
+//             });
 
 // server.get('/logout', function(req, res) {
 //   req.logout();

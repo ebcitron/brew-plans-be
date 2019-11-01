@@ -3,6 +3,7 @@ exports.up = function(knex) {
     .createTable("users", users => {
       users.increments();
 
+      users.string("userString").unique();
       users.string("username", 60).unique();
       users.string("password", 60).notNullable();
       users
@@ -34,7 +35,7 @@ exports.up = function(knex) {
       seededed_recipes.increments();
 
       seededed_recipes.string("title", 60).notNullable();
-      seededed_recipes.string("instructions").notNullable();
+      seededed_recipes.string("instructions", 5000).notNullable();
       seededed_recipes.string("brew_type");
       seededed_recipes.integer("water_temp");
       seededed_recipes.string("coarseness");
