@@ -20,14 +20,18 @@ async function handleArrayQuantity(operation, recipe_id, quantityArray) {
   const results = [];
   for (let i = 0; i < quantityArray.length; i++) {
     let quantity = quantityArray[i];
-    console.log("handleArrayQuantity[i]", quantity)
+    // console.log("handleArrayQuantity[i]", quantity)
     switch (operation) {
       case "add":
         const addResult = await addQuantity(quantity.quantity, recipe_id, quantity.ingredient);
         results.push(addResult);
         break;
       case "update":
-        const updateResult = await updateQuantity(quantity);
+        // console.log("update Quantity switch statement")
+        const updateResult = await updateQuantity(  quantity.quantity,
+          recipe_id,
+          quantity.ingredient,
+          quantity.id);
         results.push(updateResult);
         break;
       case "delete":
@@ -36,7 +40,7 @@ async function handleArrayQuantity(operation, recipe_id, quantityArray) {
         break;
     }
   }
-  console.log("handle ingredients results", results)
+  // console.log("handle ingredients results", results)
   return results;
 }
 
@@ -56,13 +60,13 @@ async function findByQuantity(quantity_id) {
 }
 
 async function checkIngredient(ingredient_title) {
-  console.log("checkIngredient title", ingredient_title);
+  // console.log("checkIngredient title", ingredient_title);
   const result = await db("ingredients")
     .where({ title: ingredient_title })
     .select("id")
     .first();
   if (result) {
-    console.log("checkIngredient id", result.id);
+    // console.log("checkIngredient id", result.id);
     return result.id;
   } else {
     return null;

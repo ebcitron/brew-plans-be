@@ -39,16 +39,17 @@ async function handleArrayInstructions(operation, recipe_id, instructionsArray) 
   const results = [];
   for (let i = 0; i < instructionsArray.length; i++) {
     let instruction = instructionsArray[i];
-    console.log("undefined instruction?", instruction)
+    // console.log("handleArray instructions", instruction)
     switch (operation) {
       case "add":
-        console.log("LOOK AT THIS ONE", instruction)
         const addResult = await addInstruction(recipe_id, instruction.order, instruction.text);
-        console.log("addResult", addResult)
+        // console.log("addResult", addResult)
         results.push(addResult);
         break;
       case "update":
-        const updateResult = await updateInstruction(instruction);
+        let id = instruction.id
+        delete instruction.id
+        const updateResult = await updateInstruction(id, instruction);
         results.push(updateResult);
         break;
       case "delete":
@@ -57,6 +58,6 @@ async function handleArrayInstructions(operation, recipe_id, instructionsArray) 
         break;
     }
   }
-  console.log("handle instructions results", results)
+  // console.log("handle instructions results", results)
   return results;
 }
