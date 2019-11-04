@@ -11,36 +11,35 @@ module.exports = {
   addQuantity,
   updateQuantity,
   updateRecipe_Ingredients,
-  deleteRecipe_Ingredients
+  deleteRecipe_Ingredients,
+  handleArrayQuantity
 };
 
-function findAllIngredients() {
-  return db("ingredients");
+//needs to add recipe_id to ingredient 
+async function handleArrayQuantity(operation, recipe_id, quantityArray) {
+  const results = [];
+  for (let i = 0; i < quantityArray.length; i++) {
+    let quantity = quantityArray[i];
+    console.log("handleArrayQuantity[i]", quantity)
+    switch (operation) {
+      case "add":
+        const addResult = await addQuantity(quantity.quantity, recipe_id, quantity.ingredient);
+        results.push(addResult);
+        break;
+      case "update":
+        const updateResult = await updateQuantity(quantity);
+        results.push(updateResult);
+        break;
+      case "delete":
+        const deleteResult = await deleteRecipe_Ingredients(quantity);
+        results.push(deleteResult);
+        break;
+    }
+  }
+  console.log("handle ingredients results", results)
+  return results;
 }
 
-function findById(ingredient_title) {
-  return db("ingredients").where({ title: ingredient_title });
-}
-
-async function add(ingredient) {
-  const [id] = await db("ingredients").insert({ title: ingredient });
-  return id;
-}
-
-function removeIngredient(id) {
-  return db("ingredients")
-    .where({ id })
-    .del();
-}
-
-function updateIngredient(id, changes) {
-  return db("ingredients")
-    .where({ id })
-    .update(changes)
-    .then(count => {
-      return findById(id);
-    });
-}
 async function findByRecipe(recipe_id) {
   const ingredients = await db("recipe_ingredients as ri")
     .where({ recipe_id: recipe_id })
@@ -131,3 +130,34 @@ async function updateQuantity(
   // console.log("2update result", result);
    return result;
 }
+
+
+
+function findAllIngredients() {
+  return db("ingredients");
+}
+
+function findById(ingredient_title) {
+  return db("ingredients").where({ title: ingredient_title });
+}
+
+async function add(ingredient) {
+  const [id] = await db("ingredients").insert({ title: ingredient });
+  return id;
+}
+
+function removeIngredient(id) {
+  return db("ingredients")
+    .where({ id })
+    .del();
+}
+
+function updateIngredient(id, changes) {
+  return db("ingredients")
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      return findById(id);
+    });
+}
+

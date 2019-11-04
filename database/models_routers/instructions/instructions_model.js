@@ -2,7 +2,7 @@ const db = require("../../dbConfig.js");
 
 module.exports = {
   findAllInstructions,
-  findInstructionsByRecipe,
+  findByRecipe,
   addInstruction,
   handleArrayInstructions
 };
@@ -11,11 +11,12 @@ function findAllInstructions() {
   return db("instructions");
 }
 
-function findInstructionsByRecipe(recipe_id) {
-  return db("instructions").where({ recipe_id: recipe_id });
+function findByRecipe(recipe_id) {
+  return db("instructions").where({ recipe_id: recipe_id }).select("id", "order", "text");
 }
 
-async function addInstruction(instruction) {
+async function addInstruction(recipe_id, order, text) {
+  const instruction = {recipe_id, order, text}
   console.log("in ADD", instruction )
   const [id] = await db("instructions").insert(instruction);
   return id;
@@ -34,14 +35,16 @@ async function deleteInstruction(id) {
     .del();
 }
 
-async function handleArrayInstructions(operation, instructionsArray) {
+async function handleArrayInstructions(operation, recipe_id, instructionsArray) {
   const results = [];
   for (let i = 0; i < instructionsArray.length; i++) {
-    const instruction = instructionsArray[i];
+    let instruction = instructionsArray[i];
+    console.log("undefined instruction?", instruction)
     switch (operation) {
       case "add":
         console.log("LOOK AT THIS ONE", instruction)
-        const addResult = await addInstruction(instruction);
+        const addResult = await addInstruction(recipe_id, instruction.order, instruction.text);
+        console.log("addResult", addResult)
         results.push(addResult);
         break;
       case "update":
@@ -54,6 +57,6 @@ async function handleArrayInstructions(operation, instructionsArray) {
         break;
     }
   }
-  console.log("handle results", results)
+  console.log("handle instructions results", results)
   return results;
 }
