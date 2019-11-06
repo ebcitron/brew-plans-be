@@ -32,25 +32,34 @@ router.get("/:id", async (req, res) => {
 
 router.post("/newrecipe", async (req, res) => {
   let recipe = req.body;
-  let instructions = recipe.instructions;
+  let instructionsArray = recipe.instructions;
   // console.log("first instructions", instructions)
   delete recipe.instructions;
-  let ingredients = recipe.ingredients;
+  let ingredientsArray = recipe.ingredients;
   delete recipe.ingredients;
   try {
     const recipeResult = await Recipes.add(recipe);
     // console.log("recipeResult", recipeResult)
-    const ingredientsResult = await Ingredients.handleArrayQuantity(
-      "add",
-      recipeResult.id,
-      ingredients
-    );
-    // console.log("ingredientsResult", ingredientsResult)
-    const instructionsResult = await Instructions.handleArrayInstructions(
-      "add",
-      recipeResult.id,
-      instructions
-    );
+    let ingredientsResult = [];
+    if (ingredientsArray) {
+      ingredientsResult = await Ingredients.handleArrayQuantity(
+        "add",
+        recipeResult.id,
+        ingredientsArray
+      );
+    } else {
+      ingredientsResult = true;
+    }
+    let instructionsResult = [];
+    if (instructionsArray) {
+      instructionsResult = await Instructions.handleArrayInstructions(
+        "add",
+        recipeResult.id,
+        instructionsArray
+      );
+    } else {
+      instructionsResult = true;
+    }
     // console.log("instructionsResult", instructionsResult)
     if (recipeResult && ingredientsResult && instructionsResult) {
       res.status(201).json({ message: "Recipe sucessfully added" });
@@ -58,7 +67,7 @@ router.post("/newrecipe", async (req, res) => {
       res.status(404).json({ message: "Error adding recipe" });
     }
   } catch (error) {
-    // console.log("error", error)
+    console.log("error", error)
 
     res.status(500).json({ message: error });
   }
@@ -90,34 +99,41 @@ router.put("/:id", async (req, res) => {
   let ingredientsArray = recipe.ingredients;
   delete recipe.ingredients;
 
-  try{
-    const recipeResult = await Recipes.updateUserRecipe(id, recipe)
-    console.log("1. put/:id recipeResult", recipeResult)
-    let ingredientsResult = []
-    if (ingredientsArray.length >0) {    
-      ingredientsResult= await Ingredients.handleArrayQuantity("update", id, ingredientsArray) 
-    console.log("2. ingredientResult", ingredientsResult)
-  } else {
-    ingredientsResult = true
-  }
-  let instructionsResult = []
-  if (instructionsArray.length > 0) {
-    instructionsResult = await Instructions.handleArrayInstructions("update", id, instructionsArray)
-    console.log("3. instructionResult", instructionsResult)
-  } else {
-    instructionsResult = true
-  }
-    if (recipeResult && ingredientsResult && instructionsResult) {
-        res.json({ message: "Successfully updated recipe" });
-      } else {
-        res.status(404).json({ message: "Could not find user recipe id" });
-      }
-
-    }catch (error) {
-      console.log("error", error)
-      res.status(500).json({ message: "Failed to update user recipe" })
+  try {
+    const recipeResult = await Recipes.updateUserRecipe(id, recipe);
+    console.log("1. put/:id recipeResult", recipeResult);
+    let ingredientsResult = [];
+    if (ingredientsArray) {
+      ingredientsResult = await Ingredients.handleArrayQuantity(
+        "update",
+        id,
+        ingredientsArray
+      );
+      console.log("2. ingredientResult", ingredientsResult);
+    } else {
+      ingredientsResult = true;
     }
-})
+    let instructionsResult = [];
+    if (instructionsArray) {
+      instructionsResult = await Instructions.handleArrayInstructions(
+        "update",
+        id,
+        instructionsArray
+      );
+      console.log("3. instructionResult", instructionsResult);
+    } else {
+      instructionsResult = true;
+    }
+    if (recipeResult && ingredientsResult && instructionsResult) {
+      res.json({ message: "Successfully updated recipe" });
+    } else {
+      res.status(404).json({ message: "Could not find user recipe id" });
+    }
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Failed to update user recipe" });
+  }
+});
 
 router.get("/user/:user_id", (req, res) => {
   const { user_id } = req.params;
