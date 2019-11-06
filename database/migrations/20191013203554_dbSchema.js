@@ -11,6 +11,15 @@ exports.up = function(knex) {
         .notNullable()
         .unique();
     })
+    .createTable("seeded_recipes", seededed_recipes => {
+      seededed_recipes.increments();
+
+      seededed_recipes.string("title", 60).notNullable();
+      seededed_recipes.string("instructions").notNullable();
+      seededed_recipes.string("brew_type");
+      seededed_recipes.integer("water_temp");
+      seededed_recipes.string("coarseness");
+    })
     .createTable("user_recipes", user_recipes => {
       user_recipes.increments();
 
@@ -20,7 +29,7 @@ exports.up = function(knex) {
       user_recipes.integer("water_temp");
       user_recipes.string("user_id").notNullable()
       user_recipes.string("coarseness");
-      user_recipes.string("instructions", 5000)
+      // user_recipes.string("instructions");
       // user_recipes
       //     .integer('ingredients_id')
       //     .unsigned()
@@ -29,17 +38,22 @@ exports.up = function(knex) {
       //     .inTable('ingredients')
       //     .onDelete('CASCADE')
       //     .onUpdate('CASCADE');
-    //   user_recipes.integer("ingredient_qty");
+      //   user_recipes.integer("ingredient_qty");
     })
-    .createTable("seeded_recipes", seededed_recipes => {
-      seededed_recipes.increments();
+    .createTable("instructions", instructions => {
+      instructions.increments();
+      instructions.integer("order").notNullable();
+      instructions.string("text").notNullable();
+      instructions
+        .integer("recipe_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("user_recipes")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+    })
 
-      seededed_recipes.string("title", 60).notNullable();
-      seededed_recipes.string("instructions", 5000).notNullable();
-      seededed_recipes.string("brew_type");
-      seededed_recipes.integer("water_temp");
-      seededed_recipes.string("coarseness");
-    })
     .createTable("ingredients", ingredients => {
       ingredients.increments();
 
@@ -53,9 +67,10 @@ exports.up = function(knex) {
         .notNullable()
         .references("id")
         .inTable("user_recipes")
-        .onDelete("CASCADE").onUpdate('CASCADE')
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE")
         .onUpdate("CASCADE");
-      recipe_ingredients.string("quantity", 60);
+      recipe_ingredients.string("quantity", 60).notNullable();
       recipe_ingredients
         .integer("ingredient_id")
         .unsigned()
@@ -71,7 +86,8 @@ exports.down = function(knex) {
   return knex.schema
     .dropTableIfExists("recipe_ingredients")
     .dropTableIfExists("ingredients")
-    .dropTableIfExists("seeded_recipes")
+    .dropTableIfExists("instructions")
     .dropTableIfExists("user_recipes")
+    .dropTableIfExists("seeded_recipes")
     .dropTableIfExists("users");
 };
