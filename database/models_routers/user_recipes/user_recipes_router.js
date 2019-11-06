@@ -101,7 +101,7 @@ router.put("/:id", async (req, res) => {
 
   try {
     const recipeResult = await Recipes.updateUserRecipe(id, recipe);
-    console.log("1. put/:id recipeResult", recipeResult);
+    // console.log("1. put/:id recipeResult", recipeResult);
     let ingredientsResult = [];
     if (ingredientsArray) {
       ingredientsResult = await Ingredients.handleArrayQuantity(
@@ -109,7 +109,7 @@ router.put("/:id", async (req, res) => {
         id,
         ingredientsArray
       );
-      console.log("2. ingredientResult", ingredientsResult);
+      // console.log("2. ingredientResult", ingredientsResult);
     } else {
       ingredientsResult = true;
     }
@@ -120,7 +120,7 @@ router.put("/:id", async (req, res) => {
         id,
         instructionsArray
       );
-      console.log("3. instructionResult", instructionsResult);
+      // console.log("3. instructionResult", instructionsResult);
     } else {
       instructionsResult = true;
     }

@@ -22,7 +22,6 @@ exports.up = function(knex) {
     })
     .createTable("user_recipes", user_recipes => {
       user_recipes.increments();
-
       user_recipes.string("title", 255).notNullable();
       user_recipes.string("brew_type", 60);
       user_recipes.binary("public_private");
@@ -52,6 +51,7 @@ exports.up = function(knex) {
         .inTable("user_recipes")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
+       instructions.integer("duration") 
     })
 
     .createTable("ingredients", ingredients => {

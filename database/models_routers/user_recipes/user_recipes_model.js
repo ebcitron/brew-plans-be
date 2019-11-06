@@ -52,8 +52,6 @@ return db("user_recipes").where({user_id})
 //returns full recipe with instructions and ingredients
 function findFullRecipe(recipe_id) {
   return db("user_recipes as u").where({"id": recipe_id})
-
-  
     .join("instructions as i", "u.id", "i.recipe_id")
     .join("recipe_ingredients as q", "u.id", "q.recipe_id")
     .join("ingredients", "q.ingredient_id", "ingredients.title")
