@@ -12,7 +12,6 @@ exports.up = function(knex) {
     })
     .createTable("seeded_recipes", seededed_recipes => {
       seededed_recipes.increments();
-
       seededed_recipes.string("title", 60).notNullable();
       seededed_recipes.string("instructions").notNullable();
       seededed_recipes.string("brew_type");
@@ -21,7 +20,6 @@ exports.up = function(knex) {
     })
     .createTable("user_recipes", user_recipes => {
       user_recipes.increments();
-
       user_recipes.string("title", 255).notNullable();
       user_recipes.string("brew_type", 60);
       user_recipes.binary("public_private");
