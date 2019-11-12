@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return knex.schema
     .createTable("users", users => {
       users.increments();
-
+      users.string("userString").unique();
       users.string("username", 60).unique();
       users.string("password", 60).notNullable();
       users
@@ -25,10 +25,9 @@ exports.up = function(knex) {
       user_recipes.binary("public_private");
       user_recipes.integer("water_temp");
       user_recipes
-        .integer("user_id")
-        .unsigned()
+        .string("userString")
         .notNullable()
-        .references("id")
+        .references("userString")
         .inTable("users")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
@@ -72,7 +71,6 @@ exports.up = function(knex) {
         .references("id")
         .inTable("user_recipes")
         .onDelete("CASCADE")
-        .onUpdate("CASCADE")
         .onUpdate("CASCADE");
       recipe_ingredients.string("quantity", 60).notNullable();
       recipe_ingredients
@@ -83,11 +81,34 @@ exports.up = function(knex) {
         .inTable("ingredients")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
+    })
+    .createTable("logs", logs => {
+      logs.increments();
+      logs
+        .integer("recipe_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("user_recipes")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      logs
+        .string("userString")
+        .unsigned()
+        .notNullable()
+        .references("userString")
+        .inTable("users")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      logs.integer("rating");
+      logs.string("comment");
+      logs.string("createdAt")
     });
 };
 
 exports.down = function(knex) {
   return knex.schema
+    .dropTableIfExists("logs")
     .dropTableIfExists("recipe_ingredients")
     .dropTableIfExists("ingredients")
     .dropTableIfExists("instructions")
