@@ -12,7 +12,7 @@ function findAllInstructions() {
 }
 
 function findByRecipe(recipe_id) {
-  return db("instructions").where({ recipe_id: recipe_id }).select("id", "order", "text");
+  return db("instructions").where({ recipe_id: recipe_id }).select("id", "order", "text", "duration");
 }
 
 async function addInstruction(recipe_id, order, text) {

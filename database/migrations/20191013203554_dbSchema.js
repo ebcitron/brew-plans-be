@@ -55,6 +55,7 @@ exports.up = function(knex) {
         .inTable("user_recipes")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
+       instructions.integer("duration") 
     })
 
     .createTable("ingredients", ingredients => {

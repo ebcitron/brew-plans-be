@@ -1,18 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const UsersDB = require("../database/models_routers/users/usersModel.js");
-require("dotenv").config();
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+require('dotenv').config()
 
-const checkIfAuthenticated = require("../database/auth/middle-ware.js");
-const createUser = require("../database/auth/createUser.js");
 
-const usersRouter = require("../database/models_routers/users/usersRouter.js");
-const ingredientsRouter = require("../database/models_routers/ingredients/ingredientsRouter.js");
-const userRecipeRouter = require("../database/models_routers/user_recipes/user_recipes_router.js");
-const seededRecipeRouter = require("../database/models_routers/seeded_recipes/seeded_recipes_router.js");
-const instructionsRouter = require("../database/models_routers/instructions/instructions_router.js");
+
+const checkIfAuthenticated = require('../database/auth/middle-ware.js')
+const createUser = require('../database/auth/createUser.js')
+
+const usersRouter = require('../database/models_routers/users/usersRouter.js')
+const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
+const userRecipeRouter = require('../database/models_routers/user_recipes/user_recipes_router.js')
+const seededRecipeRouter = require('../database/models_routers/seeded_recipes/seeded_recipes_router.js')
+const instructionsRouter = require('../database/models_routers/instructions/instructions_router.js')
 const logsRouter = require("../database/models_routers/logs/logs_router");
+
 
 const server = express();
 
