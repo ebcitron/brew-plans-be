@@ -13,30 +13,40 @@ const ingredientsRouter = require('../database/models_routers/ingredients/ingred
 const userRecipeRouter = require('../database/models_routers/user_recipes/user_recipes_router.js')
 const seededRecipeRouter = require('../database/models_routers/seeded_recipes/seeded_recipes_router.js')
 const instructionsRouter = require('../database/models_routers/instructions/instructions_router.js')
+const logsRouter = require("../database/models_routers/logs/logs_router");
+
 
 const server = express();
 
-server.use(require('morgan')('combined'));
-server.use(require('body-parser').urlencoded({ extended: true }));
+server.use(require("morgan")("combined"));
+server.use(require("body-parser").urlencoded({ extended: true }));
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.use('/users', usersRouter);
+server.use("/users", usersRouter);
 // server.use('/users', checkIfAuthenticated, usersRouter);
 
-server.use('/ingredients', ingredientsRouter)
+server.use("/ingredients", ingredientsRouter);
 // server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
 
-server.use('/userrecipes', userRecipeRouter)
+server.use("/userrecipes", userRecipeRouter);
 // server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
 
-server.use('/seededrecipes', seededRecipeRouter)
+server.use("/seededrecipes", seededRecipeRouter);
 // server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
 
-server.use('/instructions', instructionsRouter)
+server.use("/instructions", instructionsRouter);
 
-server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
+server.use("/logs", logsRouter);
+
+server.use(
+  require("express-session")({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 // server.use(passport.initialize());
 // server.use(passport.session());
@@ -48,25 +58,22 @@ server.use(require('express-session')({ secret: 'secret', resave: false, saveUni
 //   res.sendStatus(401);
 // }
 
-server.post('/auth/signup', createUser);
-
+server.post("/auth/signup", createUser);
 
 //test endpoints
 // server.get('/', (req, res) => {
 //     res.status(200).json({ api: 'up' });
 // });
 
-// server.post('/login', 
+// server.post('/login',
 //   passport.authenticate('local', { failureRedirect: '/' }),
 //     (req, res) => {
 //         res.redirect('/master');
 //       });
 
-server.get('/master', 
-    checkIfAuthenticated, 
-      (req, res) => {
-          res.redirect('/users/allusers');
-        });
+server.get("/master", checkIfAuthenticated, (req, res) => {
+  res.redirect("/users/allusers");
+});
 
 // server.get('/logout', function(req, res) {
 //   req.logout();
@@ -74,7 +81,6 @@ server.get('/master',
 //         });
 
 module.exports = server;
-
 
 // const passport = require('passport');
 // var config = require('../oauth.js');
@@ -96,7 +102,7 @@ module.exports = server;
 // passport.serializeUser(function(user, cb) {
 //   cb(null, user.id);
 // });
-  
+
 // passport.deserializeUser(function(id, cb) {
 //   UsersDB.findById(id, function (err, user) {
 //     if (err) { return cb(err); }
@@ -107,7 +113,7 @@ module.exports = server;
 // passport.use('local' , new LocalStrategy(
 //     function(username, password, done) {
 //         UsersDB.FindByUsername({ username: username }, function (err, user) {
-//         if (err) { 
+//         if (err) {
 //           return done(err); }
 //         if (!user) { return done(null, false); }
 //         if (!user.verifyPassword(password)) { return done(null, false); }
@@ -115,7 +121,6 @@ module.exports = server;
 //       });
 //     }
 //   ));
-
 
 // passport.serializeUser(function (user, done) {
 //   done(null, UsersDB[0].id);
@@ -127,7 +132,7 @@ module.exports = server;
 // passport.use('local', new LocalStrategy(
 //     function(username, password, done) {
 //         UsersDB.FindByUsername({ username: username }, function (err, user) {
-//         if (err) { 
+//         if (err) {
 //           return done(err); }
 //         if (!user) { return done(null, false); }
 //         if (!user.verifyPassword(password)) { return done(null, false); }
@@ -146,7 +151,6 @@ module.exports = server;
 // passport.deserializeUser(function (id, done) {
 //   done(null, users[0]);
 // });
-
 
 // passport.use('local', new LocalStrategy({
 //   usernameField: 'email',

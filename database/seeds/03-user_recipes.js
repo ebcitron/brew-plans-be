@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
       brew_type: "Pour Over",
       public_private: 0,
       water_temp: 50,
-      user_id: 1,
+      userString: 123456,
       coarseness: "fine"
     },
     {
@@ -13,7 +13,7 @@ exports.seed = function(knex, Promise) {
       brew_type: "testing",
       public_private: 0,
       water_temp: 30,
-      user_id: 3,
+      userString: 123456,
       coarseness: "fine"
     },
     {
@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
       brew_type: "testing",
       public_private: 1,
       water_temp: 30,
-      user_id: 2,
+      userString: 123456,
       coarseness: "rough"
     },
     {
@@ -29,7 +29,7 @@ exports.seed = function(knex, Promise) {
       brew_type: "testing",
       public_private: 1,
       water_temp: 40,
-      user_id: 5,
+      userString: 123456,
       coarseness: "fine"
     },
     {
@@ -37,7 +37,7 @@ exports.seed = function(knex, Promise) {
       brew_type: "testing",
       public_private: 1,
       water_temp: 70,
-      user_id: 3,
+      userString: 123456,
       coarseness: "rough"
     }
   ]);

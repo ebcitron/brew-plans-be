@@ -2,7 +2,6 @@ exports.up = function(knex) {
   return knex.schema
     .createTable("users", users => {
       users.increments();
-
       users.string("userString").unique();
       users.string("username", 60).unique();
       users.string("password", 60).notNullable();
@@ -25,7 +24,13 @@ exports.up = function(knex) {
       user_recipes.string("brew_type", 60);
       user_recipes.binary("public_private");
       user_recipes.integer("water_temp");
-      user_recipes.string("user_id").notNullable()
+      user_recipes
+        .string("userString")
+        .notNullable()
+        .references("userString")
+        .inTable("users")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
       user_recipes.string("coarseness");
       // user_recipes.string("instructions");
       // user_recipes
@@ -67,7 +72,6 @@ exports.up = function(knex) {
         .references("id")
         .inTable("user_recipes")
         .onDelete("CASCADE")
-        .onUpdate("CASCADE")
         .onUpdate("CASCADE");
       recipe_ingredients.string("quantity", 60).notNullable();
       recipe_ingredients
@@ -78,11 +82,34 @@ exports.up = function(knex) {
         .inTable("ingredients")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
+    })
+    .createTable("logs", logs => {
+      logs.increments();
+      logs
+        .integer("recipe_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("user_recipes")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      logs
+        .string("userString")
+        .unsigned()
+        .notNullable()
+        .references("userString")
+        .inTable("users")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      logs.integer("rating");
+      logs.string("comment");
+      logs.string("createdAt")
     });
 };
 
 exports.down = function(knex) {
   return knex.schema
+    .dropTableIfExists("logs")
     .dropTableIfExists("recipe_ingredients")
     .dropTableIfExists("ingredients")
     .dropTableIfExists("instructions")
