@@ -44,8 +44,8 @@ function updateUserRecipe(id, changes) {
 }
 
 //returns truncated recipes with no ingredients/instructions
-async function findPostsByUserId(user_id) {
-return db("user_recipes").where({user_id})
+async function findPostsByUserId(userString) {
+return db("user_recipes").where({userString})
 
 }
 

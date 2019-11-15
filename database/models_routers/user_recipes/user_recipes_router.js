@@ -135,9 +135,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.get("/user/:user_id", (req, res) => {
-  const { user_id } = req.params;
-  Recipes.findPostsByUserId(user_id)
+router.get("/user/:userString", (req, res) => {
+  const { userString } = req.params;
+  Recipes.findPostsByUserId(userString)
     .then(recipe => {
       if (recipe) {
         console.log(recipe);
