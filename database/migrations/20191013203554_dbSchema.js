@@ -13,7 +13,7 @@ exports.up = function(knex) {
     .createTable("seeded_recipes", seededed_recipes => {
       seededed_recipes.increments();
       seededed_recipes.string("title", 60).notNullable();
-      seededed_recipes.string("instructions").notNullable();
+      seededed_recipes.string("instructions", 1000).notNullable();
       seededed_recipes.string("brew_type");
       seededed_recipes.integer("water_temp");
       seededed_recipes.string("coarseness");
