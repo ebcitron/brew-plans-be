@@ -3,6 +3,85 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config()
 
+
+
+const checkIfAuthenticated = require('../database/auth/middle-ware.js')
+const createUser = require('../database/auth/createUser.js')
+
+const usersRouter = require('../database/models_routers/users/usersRouter.js')
+const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
+const userRecipeRouter = require('../database/models_routers/user_recipes/user_recipes_router.js')
+const seededRecipeRouter = require('../database/models_routers/seeded_recipes/seeded_recipes_router.js')
+const instructionsRouter = require('../database/models_routers/instructions/instructions_router.js')
+const logsRouter = require("../database/models_routers/logs/logs_router");
+
+
+const server = express();
+
+server.use(require("morgan")("combined"));
+server.use(require("body-parser").urlencoded({ extended: true }));
+server.use(helmet());
+server.use(express.json());
+server.use(cors());
+
+server.use("/users", usersRouter);
+// server.use('/users', checkIfAuthenticated, usersRouter);
+
+server.use("/ingredients", ingredientsRouter);
+// server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
+
+server.use("/userrecipes", userRecipeRouter);
+// server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
+
+server.use("/seededrecipes", seededRecipeRouter);
+// server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
+
+server.use("/instructions", instructionsRouter);
+
+server.use("/logs", logsRouter);
+
+server.use(
+  require("express-session")({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+// server.use(passport.initialize());
+// server.use(passport.session());
+
+// function isLoggedIn(req, res, next) {
+//   if (req.isAuthenticated())
+//       return next();
+
+//   res.sendStatus(401);
+// }
+
+server.post("/auth/signup", createUser);
+
+//test endpoints
+// server.get('/', (req, res) => {
+//     res.status(200).json({ api: 'up' });
+// });
+
+// server.post('/login',
+//   passport.authenticate('local', { failureRedirect: '/' }),
+//     (req, res) => {
+//         res.redirect('/master');
+//       });
+
+server.get("/master", checkIfAuthenticated, (req, res) => {
+  res.redirect("/users/allusers");
+});
+
+// server.get('/logout', function(req, res) {
+//   req.logout();
+//       res.send('logged out');
+//         });
+
+module.exports = server;
+
 // const passport = require('passport');
 // var config = require('../oauth.js');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
@@ -23,7 +102,7 @@ require('dotenv').config()
 // passport.serializeUser(function(user, cb) {
 //   cb(null, user.id);
 // });
-  
+
 // passport.deserializeUser(function(id, cb) {
 //   UsersDB.findById(id, function (err, user) {
 //     if (err) { return cb(err); }
@@ -34,7 +113,7 @@ require('dotenv').config()
 // passport.use('local' , new LocalStrategy(
 //     function(username, password, done) {
 //         UsersDB.FindByUsername({ username: username }, function (err, user) {
-//         if (err) { 
+//         if (err) {
 //           return done(err); }
 //         if (!user) { return done(null, false); }
 //         if (!user.verifyPassword(password)) { return done(null, false); }
@@ -42,7 +121,6 @@ require('dotenv').config()
 //       });
 //     }
 //   ));
-
 
 // passport.serializeUser(function (user, done) {
 //   done(null, UsersDB[0].id);
@@ -54,7 +132,7 @@ require('dotenv').config()
 // passport.use('local', new LocalStrategy(
 //     function(username, password, done) {
 //         UsersDB.FindByUsername({ username: username }, function (err, user) {
-//         if (err) { 
+//         if (err) {
 //           return done(err); }
 //         if (!user) { return done(null, false); }
 //         if (!user.verifyPassword(password)) { return done(null, false); }
@@ -74,7 +152,6 @@ require('dotenv').config()
 //   done(null, users[0]);
 // });
 
-
 // passport.use('local', new LocalStrategy({
 //   usernameField: 'email',
 //   passwordField: 'password'
@@ -88,77 +165,3 @@ require('dotenv').config()
 //       }
 //   })
 // );
-
-
-const checkIfAuthenticated = require('../database/auth/middle-ware.js')
-const createUser = require('../database/auth/createUser.js')
-
-const usersRouter = require('../database/models_routers/users/usersRouter.js')
-const ingredientsRouter = require('../database/models_routers/ingredients/ingredientsRouter.js')
-const userRecipeRouter = require('../database/models_routers/user_recipes/user_recipes_router.js')
-const seededRecipeRouter = require('../database/models_routers/seeded_recipes/seeded_recipes_router.js')
-
-const server = express();
-
-server.use(require('morgan')('combined'));
-server.use(require('body-parser').urlencoded({ extended: true }));
-server.use(helmet());
-server.use(express.json());
-server.use(cors());
-
-server.use('/users', usersRouter);
-// server.use('/users', checkIfAuthenticated, usersRouter);
-
-server.use('/ingredients', ingredientsRouter)
-// server.use('/ingredients', checkIfAuthenticated, ingredientsRouter)
-
-server.use('/userrecipes', userRecipeRouter)
-// server.use('/userrecipes', checkIfAuthenticated, userRecipeRouter)
-
-server.use('/seededrecipes', seededRecipeRouter)
-// server.use('/seededrecipes', checkIfAuthenticated, seededRecipeRouter)
-
-
-// server.use(require('express-session')({ secret: 'secret', resave: false, saveUninitialized: false }));
-
-// server.use(passport.initialize());
-// server.use(passport.session());
-
-// function isLoggedIn(req, res, next) {
-//   if (req.isAuthenticated())
-//       return next();
-
-//   res.sendStatus(401);
-// }
-
-server.post('/auth/signup', createUser);
-
-// test endpoints
-server.get('/', (req, res) => {
-    res.status(200).json({ api: 'up' });
-});
-
-// server.post('/login', 
-//   passport.authenticate('local', { failureRedirect: '/' }),
-//     (req, res) => {
-//         res.redirect('/master');
-//       });
-
-server.get('/master', 
-    checkIfAuthenticated, 
-      (req, res) => {
-          res.redirect('/users/allusers');
-        });
-
-// server.get('/master', 
-//       checkIfAdmin, 
-//           (req, res) => {
-//               res.redirect('/users/allusers');
-//             });
-
-// server.get('/logout', function(req, res) {
-//   req.logout();
-//       res.send('logged out');
-//         });
-
-module.exports = server;
