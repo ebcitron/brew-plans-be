@@ -50,7 +50,7 @@ router.post("/newrecipe", async (req, res) => {
     try {
       ingredientsResult = await Ingredients.handleArrayQuantity(
         "add",
-        recipeResult.id,
+        recipeResult,
         ingredientsArray
       );
     } catch (error) {
@@ -65,7 +65,7 @@ router.post("/newrecipe", async (req, res) => {
     try {
       instructionsResult = await Instructions.handleArrayInstructions(
         "add",
-        recipeResult.id,
+        recipeResult,
         instructionsArray
       );
     } catch (error) {
