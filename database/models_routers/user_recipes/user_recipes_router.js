@@ -42,6 +42,7 @@ router.post("/newrecipe", async (req, res) => {
     recipeResult = await Recipes.add(recipe);
     // console.log("recipeResult", recipeResult)
   } catch (error) {
+    console.log("Error", error)
     res.status(500).json({ message: "Error adding recipe" });
   }
   let ingredientsResult = [];
@@ -53,6 +54,7 @@ router.post("/newrecipe", async (req, res) => {
         ingredientsArray
       );
     } catch (error) {
+      console.log("Error", error)
       res.status(500).json({ message: "Error adding ingredients" });
     }
   } else {
@@ -67,6 +69,7 @@ router.post("/newrecipe", async (req, res) => {
         instructionsArray
       );
     } catch (error) {
+      console.log("Error", error)
       res.status(500).json({ message: "Error adding instructions" });
     }
   } else {

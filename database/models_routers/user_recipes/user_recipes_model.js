@@ -23,8 +23,9 @@ function findById(id) {
 
 
 async function add(recipe) {
-  return await db("user_recipes").insert(recipe);
-
+  const [id] =  await db("user_recipes").insert(recipe);
+  console.log("recipe_ID in model", id)
+  return id
 }
 
 function removeRecipe(id) {
