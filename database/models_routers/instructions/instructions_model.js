@@ -15,8 +15,8 @@ function findByRecipe(recipe_id) {
   return db("instructions").where({ recipe_id: recipe_id }).select("id", "order", "text", "duration");
 }
 
-async function addInstruction(recipe_id, order, text) {
-  const instruction = {recipe_id, order, text}
+async function addInstruction(recipe_id, order, text, duration) {
+  const instruction = {recipe_id, order, text, duration}
   console.log("in ADD 4", instruction )
   const [id] = await db("instructions").insert(instruction);
   return id;
@@ -42,7 +42,7 @@ async function handleArrayInstructions(operation, recipe_id, instructionsArray) 
     console.log("handleArray instructions 3", instruction)
     switch (operation) {
       case "add":
-        const addResult = await addInstruction(recipe_id, instruction.order, instruction.text);
+        const addResult = await addInstruction(recipe_id, instruction.order, instruction.text, instruction.duration);
         // console.log("addResult", addResult)
         results.push(addResult);
         break;

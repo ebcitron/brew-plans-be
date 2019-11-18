@@ -39,13 +39,12 @@ router.post("/newrecipe", async (req, res) => {
   delete recipe.ingredients;
   var recipeResult
   try {
-    const recipeResult = await Recipes.add(recipe);
+    recipeResult = await Recipes.add(recipe);
     console.log("recipeResult 1", recipeResult)
   } catch (error) {
     console.log("Error", error)
     res.status(500).json({ message: "Error adding recipe" });
   }
-  finally{
   let ingredientsResult = [];
   if (ingredientsArray.length>0) {
     try {
@@ -77,7 +76,7 @@ router.post("/newrecipe", async (req, res) => {
   } else {
     instructionsResult = true;
   }
-  }
+  
   // console.log("instructionsResult", instructionsResult)
   if (recipeResult && ingredientsResult && instructionsResult) {
     res.status(201).json({ message: "Recipe sucessfully added" });
