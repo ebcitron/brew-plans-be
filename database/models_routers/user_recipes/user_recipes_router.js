@@ -37,6 +37,7 @@ router.post("/newrecipe", async (req, res) => {
   delete recipe.instructions;
   let ingredientsArray = recipe.ingredients;
   delete recipe.ingredients;
+  var recipeResult
   try {
     const recipeResult = await Recipes.add(recipe);
     console.log("recipeResult", recipeResult)
