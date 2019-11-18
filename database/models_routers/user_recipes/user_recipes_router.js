@@ -40,7 +40,7 @@ router.post("/newrecipe", async (req, res) => {
   var recipeResult
   try {
     const recipeResult = await Recipes.add(recipe);
-    console.log("recipeResult 43", recipeResult)
+    console.log("recipeResult 1", recipeResult)
   } catch (error) {
     console.log("Error", error)
     res.status(500).json({ message: "Error adding recipe" });
@@ -64,6 +64,7 @@ router.post("/newrecipe", async (req, res) => {
   let instructionsResult = [];
   if (instructionsArray.length>0) {
     try {
+      console.log("if statement post request: recipeResult 2", recipeResult)
       instructionsResult = await Instructions.handleArrayInstructions(
         "add",
         recipeResult,
