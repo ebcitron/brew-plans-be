@@ -45,6 +45,7 @@ router.post("/newrecipe", async (req, res) => {
     console.log("Error", error)
     res.status(500).json({ message: "Error adding recipe" });
   }
+  finally{
   let ingredientsResult = [];
   if (ingredientsArray.length>0) {
     try {
@@ -74,6 +75,7 @@ router.post("/newrecipe", async (req, res) => {
     }
   } else {
     instructionsResult = true;
+  }
   }
   // console.log("instructionsResult", instructionsResult)
   if (recipeResult && ingredientsResult && instructionsResult) {
