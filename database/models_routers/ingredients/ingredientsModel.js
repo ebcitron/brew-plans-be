@@ -16,20 +16,20 @@ module.exports = {
 };
 
 //needs to add recipe_id to ingredient 
-async function handleArrayQuantity(operation, recipe_id, quantityArray) {
+async function handleArrayQuantity(operation, recipeResult, quantityArray) {
   const results = [];
   for (let i = 0; i < quantityArray.length; i++) {
     let quantity = quantityArray[i];
     // console.log("handleArrayQuantity[i]", quantity)
     switch (operation) {
       case "add":
-        const addResult = await addQuantity(quantity.quantity, recipe_id, quantity.ingredient);
+        const addResult = await addQuantity(quantity.quantity, recipeResult, quantity.ingredient);
         results.push(addResult);
         break;
       case "update":
         // console.log("update Quantity switch statement")
         const updateResult = await updateQuantity(  quantity.quantity,
-          recipe_id,
+          recipeResult,
           quantity.ingredient,
           quantity.id);
         results.push(updateResult);

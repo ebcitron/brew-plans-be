@@ -35,14 +35,14 @@ async function deleteInstruction(id) {
     .del();
 }
 
-async function handleArrayInstructions(operation, recipe_id, instructionsArray) {
+async function handleArrayInstructions(operation, recipeResult, instructionsArray) {
   const results = [];
   for (let i = 0; i < instructionsArray.length; i++) {
     let instruction = instructionsArray[i];
     // console.log("handleArray instructions", instruction)
     switch (operation) {
       case "add":
-        const addResult = await addInstruction(recipe_id, instruction.order, instruction.text);
+        const addResult = await addInstruction(recipeResult, instruction.order, instruction.text);
         // console.log("addResult", addResult)
         results.push(addResult);
         break;

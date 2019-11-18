@@ -40,7 +40,7 @@ router.post("/newrecipe", async (req, res) => {
   var recipeResult
   try {
     const recipeResult = await Recipes.add(recipe);
-    console.log("recipeResult", recipeResult)
+    console.log("recipeResult 43", recipeResult)
   } catch (error) {
     console.log("Error", error)
     res.status(500).json({ message: "Error adding recipe" });
