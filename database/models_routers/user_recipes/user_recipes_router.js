@@ -37,14 +37,15 @@ router.post("/newrecipe", async (req, res) => {
   delete recipe.instructions;
   let ingredientsArray = recipe.ingredients;
   delete recipe.ingredients;
+  const recipeResult={}
   try {
-    const recipeResult = await Recipes.add(recipe);
+    recipeResult = await Recipes.add(recipe);
     // console.log("recipeResult", recipeResult)
   } catch (error) {
     res.status(500).json({ message: "Error adding recipe" });
   }
   let ingredientsResult = [];
-  if (ingredientsArray.lenght>0) {
+  if (ingredientsArray.length>0) {
     try {
       ingredientsResult = await Ingredients.handleArrayQuantity(
         "add",
