@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/newrecipe", async (req, web npm startres) => {
+router.post("/newrecipe", async (req, res) => {
   let recipe = req.body;
   let instructionsArray = recipe.instructions;
   // console.log("first instructions", instructions)
