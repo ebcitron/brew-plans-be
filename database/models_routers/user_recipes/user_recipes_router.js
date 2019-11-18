@@ -69,7 +69,7 @@ router.post("/newrecipe", async (req, res) => {
   } catch (error) {
     console.log("error", error)
 
-    res.status(500).json({ recipeResult });
+    res.status(500).json( recipeResult );
   }
 });
 
