@@ -26,11 +26,11 @@ exports.up = function(knex) {
       user_recipes.integer("water_temp");
       user_recipes
         .string("userString")
-        .notNullable()
-        .references("userString")
-        .inTable("users")
-        .onDelete("CASCADE")
-        .onUpdate("CASCADE");
+        // .notNullable()
+        // .references("userString")
+        // .inTable("users")
+        // .onDelete("CASCADE")
+        // .onUpdate("CASCADE");
       user_recipes.string("coarseness");
       // user_recipes.string("instructions");
       // user_recipes
