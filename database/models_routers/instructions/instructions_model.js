@@ -15,8 +15,8 @@ function findByRecipe(recipe_id) {
   return db("instructions").where({ recipe_id: recipe_id }).select("id", "order", "text", "duration");
 }
 
-async function addInstruction(recipe_id, order, text) {
-  const instruction = {recipe_id, order, text}
+async function addInstruction(recipeResult, order, text) {
+  const instruction = {recipe_id: recipeResult, order, text}
   console.log("in ADD", instruction )
   const [id] = await db("instructions").insert(instruction);
   return id;
