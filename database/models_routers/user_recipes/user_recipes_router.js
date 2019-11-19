@@ -37,39 +37,51 @@ router.post("/newrecipe", async (req, res) => {
   delete recipe.instructions;
   let ingredientsArray = recipe.ingredients;
   delete recipe.ingredients;
+  var recipeResult
   try {
-    const recipeResult = await Recipes.add(recipe);
-    // console.log("recipeResult", recipeResult)
-    let ingredientsResult = [];
-    if (ingredientsArray) {
+    recipeResult = await Recipes.add(recipe);
+    console.log("recipeResult 1", recipeResult)
+  } catch (error) {
+    console.log("Error", error)
+    res.status(500).json({ message: "Error adding recipe" });
+  }
+  let ingredientsResult = [];
+  if (ingredientsArray.length>0) {
+    try {
       ingredientsResult = await Ingredients.handleArrayQuantity(
         "add",
-        recipeResult.id,
+        recipeResult,
         ingredientsArray
       );
-    } else {
-      ingredientsResult = true;
+    } catch (error) {
+      console.log("Error", error)
+      res.status(500).json({ message: "Error adding ingredients" });
     }
-    let instructionsResult = [];
-    if (instructionsArray) {
+  } else {
+    ingredientsResult = true;
+  }
+  let instructionsResult = [];
+  if (instructionsArray.length>0) {
+    try {
+      console.log("if statement post request: recipeResult 2", recipeResult)
       instructionsResult = await Instructions.handleArrayInstructions(
         "add",
-        recipeResult.id,
+        recipeResult,
         instructionsArray
       );
-    } else {
-      instructionsResult = true;
+    } catch (error) {
+      console.log("Error", error)
+      res.status(500).json({ message: "Error adding instructions" });
     }
-    // console.log("instructionsResult", instructionsResult)
-    if (recipeResult && ingredientsResult && instructionsResult) {
-      res.status(201).json({ message: "Recipe sucessfully added" });
-    } else {
-      res.status(404).json({ message: "Error adding recipe" });
-    }
-  } catch (error) {
-    console.log("error", error)
-
-    res.status(500).json({ message: error });
+  } else {
+    instructionsResult = true;
+  }
+  
+  // console.log("instructionsResult", instructionsResult)
+  if (recipeResult && ingredientsResult && instructionsResult) {
+    res.status(201).json({ message: "Recipe sucessfully added" });
+  } else {
+    res.status(404).json({ message: "Error adding recipe" });
   }
 });
 
