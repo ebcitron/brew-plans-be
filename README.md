@@ -1,8 +1,8 @@
 🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
 
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
+🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
 
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
+🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
 # API Documentation
 
@@ -12,8 +12,6 @@
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **npm i** to install all required dependencies
 - **npm run server** to start the local server
@@ -21,156 +19,186 @@ To get the server running locally:
 
 ### Express
 
-🚫 Why did you choose this framework?
-
--    Majority of the team has experience with node
--    Fast and easy to get up and running
+- Majority of the team has experience with node
+- Fast and easy to get up and running
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+NOTE: There are some endpoints(marked by italics) that are not necessary because of changes made to the /userrecipe endpoints. Any post, put, or get requests can likely use the /userrecipe endpoints.
 
 #### Seeded Recipes Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/seededRecipes/all` | N/A      | Returns every seeded recipe in the database|
-| GET    | `/seededRecipes/:id` | N/A      | Returns seeded recipe by ID|
-| POST   | `/seededRecipes/newseed` | N/A         | Creates a new seeded recipe|
-| PUT    | `/seededRecipes/:id` | N/A         | Updates seed by ID|
-
-#### Ingredients Routes(removed/changed after RC1)
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/ingredients/all` | N/A      | Returns every ingredient in the database|
-| GET    | `/seededRecipes/:id` | N/A      | Returns ingredient by ID|
-| POST   | `/seededRecipes/newingredient` | N/A         | Creates a new ingredient|
-| PUT    | `/seededRecipes/:id` | N/A         | Updates ingredient by ID|
-
+| Method | Endpoint                 | Access Control | Description                                 |
+| ------ | ------------------------ | -------------- | ------------------------------------------- |
+| GET    | `/seededRecipes/all`     | N/A            | Returns every seeded recipe in the database |
+| GET    | `/seededRecipes/:id`     | N/A            | Returns seeded recipe by ID                 |
+| POST   | `/seededRecipes/newseed` | N/A            | Creates a new seeded recipe                 |
+| PUT    | `/seededRecipes/:id`     | N/A            | Updates seed by ID                          |
+| DELETE | `/seededRecipes/:id`     | N/A            | Deletes seed by ID                          |
 
 #### User Recipes Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/seededRecipes/all` | N/A      | Returns every seeded recipe in the database|
-| GET    | `/seededRecipes/:id` | N/A      | Returns seeded recipe by ID|
-| POST   | `/seededRecipes/newseed` | N/A     | Creates a new seeded recipe|
+| Method | Endpoint                  | Access Control | Description                                                                  |
+| ------ | ------------------------- | -------------- | ---------------------------------------------------------------------------- |
+| GET    | `/userrecipes/all`        | N/A            | Returns every seeded recipe in the database                                  |
+| GET    | `/userrecipes/:recipe_id` | N/A            | Returns full user recipe by ID with ingredients and instructions             |
+| POST   | `/userrecipes/newrecipe`  | N/A            | Accepts recipe with ingredients and instructions to create a new user recipe |
+| DELETE | `/userrecipes/:recipe_id` | N/A            | Deletes recipe with cascading effect on instruction and ingredients          |
+| PUT    | `/userrecipes/:recipe_id` | N/A            | Accepts recipe with ingredients and instructions to update all               |
+| GET    | `userrecipes/:userString` | N/A            | Gets all truncated(no instructions) recipes for that user                    |
 
 #### User Routes
 
-| Method | Endpoint            | Access Control      | Description                                 |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| POST    | `/register`        | new users           | registers the users with firebase authenticaion|
-| POST    | `/login`           | registerd users     | logs in the user|
+| Method | Endpoint    | Access Control  | Description                                     |
+| ------ | ----------- | --------------- | ----------------------------------------------- |
+| POST   | `/register` | new users       | registers the users with firebase authenticaion |
+| POST   | `/login`    | registerd users | logs in the user                                |
 
+#### User Instructions
+
+| Method | Endpoint               | Access Control | Description                                           |
+| ------ | ---------------------- | -------------- | ----------------------------------------------------- |
+| GET    | `/instructions/all`    | N/A            | Returns every instruction in the database             |
+| _POST_ | `/instructions/add`    | N/A            | Accepts array of instructions and creates new entries |
+| _PUT_  | `/instructions/update` | N/A            | Accepts array of instructions and updates entries     |
+| DELETE | `/instructions/delete` | N/A            | Accepts array of instructions and deletes entries     |
+
+#### Ingredients Routes
+
+| Method | Endpoint                                | Access Control | Description                                      |
+| ------ | --------------------------------------- | -------------- | ------------------------------------------------ |
+| GET    | `/ingredients/all`                      | N/A            | Returns every ingredient in the database         |
+| _GET_  | `/ingredients/:recipe_id`               | N/A            | Returns array of ingredints for indicated recipe |
+| _POST_ | `/ingredients/:recipe_id/newingredient` | N/A            | Accepts array of ingredients and adds them       |
+| _PUT_  | `/ingredients/:recipe_id`               | N/A            | Accepts array of ingredients to update           |
+| DELETE | `/ingredients/:ingredient_id`           | N/A            | Deletes the ingredient with specified ID         |
 
 # Data Model
 
 #### USERS
 
-
-| NAME OF HEADER | TYPE |
-| ------ | ----------------------- |
-| id    | ID     |
-| email    | string     |
-| username    | string     |
-| password    | string     |
+| NAME OF HEADER | TYPE   |
+| -------------- | ------ |
+| id             | ID     |
+| email          | string |
+| username       | string |
+| password       | string |
 
 #### USER RECIPES
 
-| NAME OF HEADER | TYPE |
-| ------ | ----------------------- |
-| id    | ID     |
-| title    | string     |
-| brew_type    | string     |
-| public_private    | binary     |
-| water_temp    | integer     |
-| user_id    | id that references to the user id |
-| coarseness    | string     |
-| ingredient_qty    | integer   |
-
+| NAME OF HEADER | TYPE                              |
+| -------------- | --------------------------------- |
+| id             | ID                                |
+| title          | string                            |
+| brew_type      | string                            |
+| public_private | binary                            |
+| water_temp     | integer                           |
+| user_id        | id that references to the user id |
+| coarseness     | string                            |
 
 #### SEEDED RECIPES
 
+| NAME OF HEADER | TYPE    |
+| -------------- | ------- |
+| id             | ID      |
+| title          | string  |
+| instructions   | string  |
+| brew_type      | string  |
+| water_temp     | integer |
+| coarseness     | integer |
 
-| NAME OF HEADER | TYPE |
-| ------ | ----------------------- |
-| id    | ID     |
-| title    | string     |
-| instructions    | string     |
-| brew_type    | string     |
-| water_temp    | integer     |
-| coarseness    | integer |
+#### INSTRUCTIONS
+
+| NAME OF HEADER          | TYPE    |
+| ----------------------- | ------- |
+| id                      | ID      |
+| order                   | integer |
+| text                    | string  |
+| recipe_id (foreign key) | string  |
+| duration(seconds)       | integer |
+
+#### QUANTITY (this and the ingredients table are offten handled together)
+
+| NAME OF HEADER              | TYPE    |
+| --------------------------- | ------- |
+| id                          | ID      |
+| quantity                    | string  |
+| recipe_id (foreign key)     | integer |
+| ingredient_id (foreign key) | integer |
 
 #### INGREDIENTS
 
-
-| NAME OF HEADER | TYPE |
-| ------ | ----------------------- |
-| id    | ID     |
-| title    | string     |
+| NAME OF HEADER | TYPE   |
+| -------------- | ------ |
+| id             | ID     |
+| title          | string |
 
 ## 2️⃣ Actions
 
-#### REGISTER/LOGIN
+#### REGISTER/LOGIN (Firebase)
 
-| ACTION NAME | DESCRIPTION |
-| ------ | ----------------------- |
-| `createUser()` | sends the user information up to firebase and registers a new user|
-| `checkIfAuthenticated()` | checks the user information against the firebase creds for auth |
+| ACTION NAME              | DESCRIPTION                                                        |
+| ------------------------ | ------------------------------------------------------------------ |
+| `createUser()`           | sends the user information up to firebase and registers a new user |
+| `checkIfAuthenticated()` | checks the user information against the firebase creds for auth    |
 
-#### USERS
+#### USERS (These are not used because we are not adding users to our own table)
 
-| ACTION NAME | DESCRIPTION |
-| ------ | ----------------------- |
-| `findAllUsers()` | Returns all Users in the database |
-| `findById(id)` | Returns User by ID |
-| `add(user)` | Adds User by ID |
-| `removeUser(id)` | Removes User by ID |
-| `findByEmail(email)` | Finds User by Email |
-| `FindByUsername(username)` | Finds User by Username |
+| ACTION NAME                | DESCRIPTION                       |
+| -------------------------- | --------------------------------- |
+| `findAllUsers()`           | Returns all Users in the database |
+| `findById(id)`             | Returns User by ID                |
+| `add(user)`                | Adds User by ID                   |
+| `removeUser(id)`           | Removes User by ID                |
+| `findByEmail(email)`       | Finds User by Email               |
+| `FindByUsername(username)` | Finds User by Username            |
 
 #### SEEDED RECIPES
 
-| ACTION NAME | DESCRIPTION |
-| ------ | ----------------------- |
-| `findAllSeededRecipes()` | Returns all seeded recipes in the database |
-| `findById(id)` | Returns seeded recipe by ID |
-| `add(seeded_recipes)` | Adds new seeded recipe |
-| `removeSeededRecipe(id)` | Removes seeded recipe by ID |
-| `updateSeededRecipe(id, changes)` | Updates seeded recipe by ID |
+| ACTION NAME                       | DESCRIPTION                                |
+| --------------------------------- | ------------------------------------------ |
+| `findAllSeededRecipes()`          | Returns all seeded recipes in the database |
+| `findById(id)`                    | Returns seeded recipe by ID                |
+| `add(seeded_recipes)`             | Adds new seeded recipe                     |
+| `removeSeededRecipe(id)`          | Removes seeded recipe by ID                |
+| `updateSeededRecipe(id, changes)` | Updates seeded recipe by ID                |
 
 #### USER RECIPES
 
-| ACTION NAME | DESCRIPTION |
-| ------ | ----------------------- |
-| `findAllRecipes()` | Returns all User recipes in the database |
-| `findById(id)` | Returns user recipe by ID |
-| `add(recipe)` | Adds new user recipe |
-| `removeRecipe(id)` | Removes user recipe by ID |
-| `updateUserRecipe(id, changes)` | Updates user recipe by ID |
-| `findPostsByUserId(user_id)` | Updates user recipe by ID |
+| ACTION NAME                     | DESCRIPTION                              |
+| ------------------------------- | ---------------------------------------- |
+| `findAllRecipes()`              | Returns all User recipes in the database |
+| `findById(id)`                  | Returns user recipe by ID                |
+| `add(recipe)`                   | Adds new user recipe                     |
+| `removeRecipe(id)`              | Removes user recipe by ID                |
+| `updateUserRecipe(id, changes)` | Updates user recipe by ID                |
+| `findPostsByUserId(user_id)`    | Updates user recipe by ID                |
 
 #### INGREDIENTS
 
-| ACTION NAME | DESCRIPTION |
-| ------ | ----------------------- |
-| `findAllIngredients()` | Returns all ingredients in the database |
-| `findById(id)` | Returns ingredient by ID |
-| `add(recipe)` | Adds new ingredient |
-| `removeIngredient(id)` | Removes ingredient by ID |
-| `updateIngredient(id, changes)` | Updates ingredient by ID |
-| `findByRecipe(recipe_id)` | Returns recipe by recipe ID |
-| `checkIngredient(ingredient_title)` | Checks to see if the ingredient already exists by its title |
-| `addQuantity(quantity, recipe_id, ingredient_title))` | Adding quantity by qty, recpie_id, and title |
+| ACTION NAME                                           | DESCRIPTION                                                                                                          |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `findAllIngredients()`                                | Returns all rows on ingredients table in the database                                                                |
+| `findById(ingredient_title)`                          | Returns ingredient by TITLE from ingredients table(should be renamed)                                                |
+| `add(ingredient)`                                     | Adds new ingredient to ingredients table                                                                             |
+| `removeIngredient(id)`                                | Removes ingredient by ID                                                                                             |
+| `updateIngredient(id, changes)`                       | Updates ingredients table by ID                                                                                      |
+| `findByRecipe(recipe_id)`                             | Returns quantities and ingredient titles by recipe ID                                                                   |
+| `checkIngredient(ingredient_title)`                   | Checks to see if the ingredient already exists by its title                                                          |
+| `addQuantity(quantity, recipe_id, ingredient_title))` | calls checkIngredient() and adds ingredient to table if it does not exist, then adds row to recipe_ingredients table |
+| `findByQuantity(quantity_id)`                         | returns row from recipe_ingredients by ID                                                                            |
+| `updateQuantity(quantity, recipe_id, ingredient_title, quantity_id))` | calls checkIngredient() and adds ingredient to table if it does not exist, then calls updateRecipe_Ingredients()|
+|`addRecipe_Ingredients(quantity, recipe_id, ingredient_id)`| adds row to recipe_ingredients table|
+|`updateRecipe_Ingredients(id, quantity)` | updates row fron recipe_ingredients table by ID|
+| `deleteRecipe_Ingredients(quantity_id)` | deletes row from recipe_ingredients table by ID|
+|`handleArrayQuantity(operation, recipeResult, quantityArray)`| handles looping over ingredient/quantity arrays to add/update/delete|
 
 ## 3️⃣ Environment Variables
 
     * ENV = PORT: 6000
     * PROCFILE: Development(web npm start)
-    * PROCFILE: Production()
-    
+    * PROCFILE: Production(web npm install pg --save && knex migrate:rollback && knex migrate:latest && knex seed:run && node index.js)
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -179,11 +207,12 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+
+- Check first to see if your issue has already been reported.
+- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+- Create a live example of the problem.
+- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
