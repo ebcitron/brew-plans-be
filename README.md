@@ -1,8 +1,22 @@
+
+
 🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
 
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
+🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
 
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
+🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
+
+
+## Contributors
+
+|                                 [Tavis Laudahl](https://github.com/tlaudahl)                                  |                               [Jasmine Charles](https://github.com/mynameisjasmine)                                |                                   [Sydney Blom](https://github.com/sydneyblom)                                   |                               [TL - Elijah McKay](https://github.com/ElijahMcKay)                                |
+| :-----------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
+|  [<img src="https://avatars0.githubusercontent.com/u/19698780" width = "200" />](https://github.com/tlaudahl)  | [<img src="https://avatars2.githubusercontent.com/u/44042194" width = "200" />](https://github.com/mynameisjasmine) | [<img src="https://avatars3.githubusercontent.com/u/36520297" width = "200" />](https://github.com/sydneyblom)  | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/ElijahMcKay)  |
+|             [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/tlaudahl)              |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/mynameisjasmine)             |             [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/sydneyblom)             |             [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/ElijahMcKay)             |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |   [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)    | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
+
+<br>
+<br>
 
 # API Documentation
 
@@ -12,124 +26,193 @@
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- **npm i** to install all required dependencies
+- **npm run server** to start the local server
+- **npm run test** to start server using testing environment
 
-### Backend framework goes here
+### Express
 
-🚫 Why did you choose this framework?
-
--    Point One
--    Point Two
--    Point Three
--    Point Four
+- Majority of the team has experience with node
+- Fast and easy to get up and running
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+NOTE: There are some endpoints(marked by italics) that are not necessary because of changes made to the /userrecipe endpoints. Any post, put, or get requests can likely use the /userrecipe endpoints.
 
-#### Organization Routes
+#### Seeded Recipes Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint                 | Access Control | Description                                 |
+| ------ | ------------------------ | -------------- | ------------------------------------------- |
+| GET    | `/seededRecipes/all`     | N/A            | Returns every seeded recipe in the database |
+| GET    | `/seededRecipes/:id`     | N/A            | Returns seeded recipe by ID                 |
+| POST   | `/seededRecipes/newseed` | N/A            | Creates a new seeded recipe                 |
+| PUT    | `/seededRecipes/:id`     | N/A            | Updates seed by ID                          |
+| DELETE | `/seededRecipes/:id`     | N/A            | Deletes seed by ID                          |
+
+#### User Recipes Routes
+
+| Method | Endpoint                  | Access Control | Description                                                                  |
+| ------ | ------------------------- | -------------- | ---------------------------------------------------------------------------- |
+| GET    | `/userrecipes/all`        | N/A            | Returns every seeded recipe in the database                                  |
+| GET    | `/userrecipes/:recipe_id` | N/A            | Returns full user recipe by ID with ingredients and instructions             |
+| POST   | `/userrecipes/newrecipe`  | N/A            | Accepts recipe with ingredients and instructions to create a new user recipe |
+| DELETE | `/userrecipes/:recipe_id` | N/A            | Deletes recipe with cascading effect on instruction and ingredients          |
+| PUT    | `/userrecipes/:recipe_id` | N/A            | Accepts recipe with ingredients and instructions to update all               |
+| GET    | `userrecipes/:userString` | N/A            | Gets all truncated(no instructions) recipes for that user                    |
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint    | Access Control  | Description                                     |
+| ------ | ----------- | --------------- | ----------------------------------------------- |
+| POST   | `/register` | new users       | registers the users with firebase authenticaion |
+| POST   | `/login`    | registerd users | logs in the user                                |
+
+#### User Instructions
+
+| Method | Endpoint               | Access Control | Description                                           |
+| ------ | ---------------------- | -------------- | ----------------------------------------------------- |
+| GET    | `/instructions/all`    | N/A            | Returns every instruction in the database             |
+| _POST_ | `/instructions/add`    | N/A            | Accepts array of instructions and creates new entries |
+| _PUT_  | `/instructions/update` | N/A            | Accepts array of instructions and updates entries     |
+| DELETE | `/instructions/delete` | N/A            | Accepts array of instructions and deletes entries     |
+
+#### Ingredients Routes
+
+| Method | Endpoint                                | Access Control | Description                                      |
+| ------ | --------------------------------------- | -------------- | ------------------------------------------------ |
+| GET    | `/ingredients/all`                      | N/A            | Returns every ingredient in the database         |
+| _GET_  | `/ingredients/:recipe_id`               | N/A            | Returns array of ingredints for indicated recipe |
+| _POST_ | `/ingredients/:recipe_id/newingredient` | N/A            | Accepts array of ingredients and adds them       |
+| _PUT_  | `/ingredients/:recipe_id`               | N/A            | Accepts array of ingredients to update           |
+| DELETE | `/ingredients/:ingredient_id`           | N/A            | Deletes the ingredient with specified ID         |
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
-
 #### USERS
 
----
+| NAME OF HEADER | TYPE   |
+| -------------- | ------ |
+| id             | ID     |
+| email          | string |
+| username       | string |
+| password       | string |
 
-```
-{
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
-}
-```
+#### USER RECIPES
+
+| NAME OF HEADER | TYPE                              |
+| -------------- | --------------------------------- |
+| id             | ID                                |
+| title          | string                            |
+| brew_type      | string                            |
+| public_private | binary                            |
+| water_temp     | integer                           |
+| user_id        | id that references to the user id |
+| coarseness     | string                            |
+
+#### SEEDED RECIPES
+
+| NAME OF HEADER | TYPE    |
+| -------------- | ------- |
+| id             | ID      |
+| title          | string  |
+| instructions   | string  |
+| brew_type      | string  |
+| water_temp     | integer |
+| coarseness     | integer |
+
+#### INSTRUCTIONS
+
+| NAME OF HEADER          | TYPE    |
+| ----------------------- | ------- |
+| id                      | ID      |
+| order                   | integer |
+| text                    | string  |
+| recipe_id (foreign key) | string  |
+| duration(seconds)       | integer |
+
+#### QUANTITY (this and the ingredients table are offten handled together)
+
+| NAME OF HEADER              | TYPE    |
+| --------------------------- | ------- |
+| id                          | ID      |
+| quantity                    | string  |
+| recipe_id (foreign key)     | integer |
+| ingredient_id (foreign key) | integer |
+
+#### INGREDIENTS
+
+| NAME OF HEADER | TYPE   |
+| -------------- | ------ |
+| id             | ID     |
+| title          | string |
 
 ## 2️⃣ Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+#### REGISTER/LOGIN (Firebase)
 
-`getOrgs()` -> Returns all organizations
+| ACTION NAME              | DESCRIPTION                                                        |
+| ------------------------ | ------------------------------------------------------------------ |
+| `createUser()`           | sends the user information up to firebase and registers a new user |
+| `checkIfAuthenticated()` | checks the user information against the firebase creds for auth    |
 
-`getOrg(orgId)` -> Returns a single organization by ID
+#### USERS (These are not used because we are not adding users to our own table)
 
-`addOrg(org)` -> Returns the created org
+| ACTION NAME                | DESCRIPTION                       |
+| -------------------------- | --------------------------------- |
+| `findAllUsers()`           | Returns all Users in the database |
+| `findById(id)`             | Returns User by ID                |
+| `add(user)`                | Adds User by ID                   |
+| `removeUser(id)`           | Removes User by ID                |
+| `findByEmail(email)`       | Finds User by Email               |
+| `FindByUsername(username)` | Finds User by Username            |
 
-`updateOrg(orgId)` -> Update an organization by ID
+#### SEEDED RECIPES
 
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
+| ACTION NAME                       | DESCRIPTION                                |
+| --------------------------------- | ------------------------------------------ |
+| `findAllSeededRecipes()`          | Returns all seeded recipes in the database |
+| `findById(id)`                    | Returns seeded recipe by ID                |
+| `add(seeded_recipes)`             | Adds new seeded recipe                     |
+| `removeSeededRecipe(id)`          | Removes seeded recipe by ID                |
+| `updateSeededRecipe(id, changes)` | Updates seeded recipe by ID                |
 
-`getUser(userId)` -> Returns a single user by user ID
+#### USER RECIPES
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+| ACTION NAME                     | DESCRIPTION                              |
+| ------------------------------- | ---------------------------------------- |
+| `findAllRecipes()`              | Returns all User recipes in the database |
+| `findById(id)`                  | Returns user recipe by ID                |
+| `add(recipe)`                   | Adds new user recipe                     |
+| `removeRecipe(id)`              | Removes user recipe by ID                |
+| `updateUserRecipe(id, changes)` | Updates user recipe by ID                |
+| `findPostsByUserId(user_id)`    | Updates user recipe by ID                |
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+#### INGREDIENTS
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+| ACTION NAME                                           | DESCRIPTION                                                                                                          |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `findAllIngredients()`                                | Returns all rows on ingredients table in the database                                                                |
+| `findById(ingredient_title)`                          | Returns ingredient by TITLE from ingredients table(should be renamed)                                                |
+| `add(ingredient)`                                     | Adds new ingredient to ingredients table                                                                             |
+| `removeIngredient(id)`                                | Removes ingredient by ID                                                                                             |
+| `updateIngredient(id, changes)`                       | Updates ingredients table by ID                                                                                      |
+| `findByRecipe(recipe_id)`                             | Returns quantities and ingredient titles by recipe ID                                                                   |
+| `checkIngredient(ingredient_title)`                   | Checks to see if the ingredient already exists by its title                                                          |
+| `addQuantity(quantity, recipe_id, ingredient_title))` | calls checkIngredient() and adds ingredient to table if it does not exist, then adds row to recipe_ingredients table |
+| `findByQuantity(quantity_id)`                         | returns row from recipe_ingredients by ID                                                                            |
+| `updateQuantity(quantity, recipe_id, ingredient_title, quantity_id))` | calls checkIngredient() and adds ingredient to table if it does not exist, then calls updateRecipe_Ingredients()|
+|`addRecipe_Ingredients(quantity, recipe_id, ingredient_id)`| adds row to recipe_ingredients table|
+|`updateRecipe_Ingredients(id, quantity)` | updates row fron recipe_ingredients table by ID|
+| `deleteRecipe_Ingredients(quantity_id)` | deletes row from recipe_ingredients table by ID|
+|`handleArrayQuantity(operation, recipeResult, quantityArray)`| handles looping over ingredient/quantity arrays to add/update/delete|
 
 ## 3️⃣ Environment Variables
 
-In order for the app to function correctly, the user must set up their own environment variables.
+    * ENV = PORT: 6000
+    * PROCFILE: Development(web npm start)
+    * PROCFILE: Production(web npm install pg --save && knex migrate:rollback && knex migrate:latest && knex seed:run && node index.js)
 
-create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
-    
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -138,11 +221,12 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+
+- Check first to see if your issue has already been reported.
+- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+- Create a live example of the problem.
+- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
